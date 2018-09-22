@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/myOrder.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/myAddress.css">
+</head>
+
+<body>
+    <section class="container">
+        <header class="header-box">
+            <i class="back"></i>
+            <h3>我的收货地址</h3>
+        </header>
+       <{foreach name="address_list" item="info"}>
+         <section class="myAddress-box">
+                <div class="addressDetail">
+                    <span><{$info.address_name}></span>
+                    <span><{$info.address_phone}></span>
+                    <p><{$info.address_city}><{$info.address_city}><{$info.address_city}><{$info.address_road}><{$info.address_detail}></p>
+                </div>
+                <div class="edior">
+                    <input type="checkbox" class="input_box" name="default" value="<{$info.address_id}>" <{eq name="info['address_default']" value="10"}>checked<{/eq}> />
+                    <span>默认地址</span>
+                    <a href="editAddress.html?add_id=<{$info.address_id}>" class="edit_address">编辑</a>
+                    <a href="javascript:(0);" class="delete_address">删除</a>
+                </div>
+            </section>
+        <{/foreach}>
+    </section>
+    <nav class="nav-box" style="text-align: center;line-height:60px;height: 60px;background-color:#f43838;"><h1><a href="member_address.html" style="color:#fff;">添加收货地址</a></h1></nav>
+    <script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+    <script charset="utf-8" src="__STATIC__/layer/layer.js"></script>
+    <script charset="utf-8">
+        $(document).ready(function () {
+            // 设置页面最小高度为屏幕高度
+            $('.container').css({ 'min-height': $(window).height() });
+        })
+    </script>
+</body>
+<script type="text/javascript">
+    $(function(){
+        $(".back").click(function () {
+            window.history.back();
+        });
+        $(".delete_address").click(function () {
+            var id = $(this).siblings('.input_box').val();
+            var obj = $(this).parent().parent('.myAddress-box');
+            if(id>0 && confirm('确定要删除收货地址吗？')){
+                $.ajax({
+                    url:'deleteAddress.html',
+                    type:'post',
+                    data:{id:id},
+                    dataType:'json',
+                    success:function (event) {
+                            layer.msg(event.msg);
+                            if(event.code==20000){
+                                obj.remove();
+                            }
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+</html>

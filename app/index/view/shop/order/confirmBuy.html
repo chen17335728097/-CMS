@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/orderTure.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/nav.css">
+</head>
+<body>
+<section class="container">
+    <form action="buy_now.html" method="post" name="order_form" id="order_pay">
+        <header class="header-box">
+            <i></i>
+            <h3>确认订单</h3>
+        </header>
+        <section class="add-address add">+ 添加收货地址</section>
+        <{notempty name="address_list"}>
+            <{foreach name="address_list" item="address"}>
+                <{eq name="address['address_default']" value="10"}>
+                    <input type="hidden" name="address_id" value="<{$address.address_id}>" />
+                    <section class="add-address address_info">收货人：<{$address.address_name}> 联系电话：<{$address.address_phone}></section>
+                <{/eq}>
+            <{/foreach}>
+        <{/notempty}>
+        <section class="goodsList-box">
+            <ul>
+                <li>
+                    <input type="hidden" name="goods_id" value="<{$goods_info.goods_id}>" />
+                    <input type="hidden" name="type_id" value="<{$attr_info.attr_id}>" />
+                    <input type="hidden" name="goods_o_num" value="<{$goods_info.goods_num}>" />
+                    <div class="goods-right">
+                        <p>￥<{$goods_info.goods_price}></p>
+                        <span>X <{$goods_info.goods_num}></span>
+                    </div>
+                    <div class="goods-img"><img src="<{$goods_info.goods_img}>" height="100%" alt=""></div>
+                    <div class="goods-title">
+                        <p><{$goods_info.goods_name}></p>
+                        <span><{$goods_info.attr_name}></span>
+                    </div>
+                </li>
+            </ul>
+            <div class="message">
+                <span>留言：</span>
+                <textarea name="order_desc" id="" cols= rows="2" maxlength="50" placeholder="(选填)最多50个字"></textarea>
+            </div>
+            <div class="courier">
+                <p>快递：<span class="express">免邮</span></p>
+            </div>
+            <div class="total">
+                <p>共<span>2</span>件商品，共计<span>￥<{$total}></span></p>
+            </div>
+            <section class="pay-box">
+                <div>需付<span class="price">￥<{$total}></span></div>
+                <div><span class="total">提交订单</span></div>
+            </section>
+        </section>
+    </form>
+    <section class="mask">
+        <section class="addDress-box">
+            <div class="layer-title">请填写收货地址</div>
+            <div class="layer-text">
+                <span>收货人</span>
+                <input type="text" name="address_name" value=""  placeholder="收货人姓名">
+            </div>
+            <div class="layer-text">
+                <span>手机号</span>
+                <input type="text" name="address_phone" value="" placeholder="联系电话">
+            </div>
+            <div class="layer-select" style="height:0.5rem;">
+                <span>选择地址</span>
+                <div class="distpicker" data-toggle='distpicker'>
+                    <select dir="rtl" id="select1" style="width:27%;margin:5px;float:left;"></select>
+                    <select dir="rtl" id="select2"  style="width:27%;margin:5px;float:left;"></select>
+                    <select dir="rtl" id="select3" style="width:27%;margin:5px;float:left;"></select>
+                </div>
+            </div>
+            <div class="layer-text">
+                <span>详细地址</span>
+                <input type="text" name="address_detail" value="" placeholder="收货详细地址">
+            </div>
+            <div class="layerBtn">
+                <a href="javascript:(0);">保存地址</a>
+            </div>
+            <div class="cancle"></div>
+        </section>
+    </section>
+</section>
+
+<script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+<script charset="utf-8" src="__STATIC__/shop/js/swiper-3.4.2.jquery.min.js"></script>
+<script charset="utf-8" src="__STATIC__/shop/js/distpicker.js"></script>
+<script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+<script charset="utf-8" src="__STATIC__/layer/layer.js"></script>
+<script charset="utf-8">
+    $(document).ready(function () {
+        // 设置页面最小高度为屏幕高度
+        $('.container').css({ 'min-height': $(window).height() });
+
+        $('.tab-box li').click(function () {
+            var index = $(this).index();
+            $(this).attr('class', "action").siblings('li').attr('class', '');
+            $('.person-contentBox > div').eq(index).show().siblings('.person-contentBox > div').hide();
+        })
+        $('#target').distpicker();
+        $('.cancle').click(function(){
+            $('.mask').hide()
+        })
+        $('.add').click(function(){
+            $('.mask').show()
+        })
+        //添加收货地址
+        $('.layerBtn').click(function(){
+            // $('.mask').hide()
+            var name= $("input[name='address_name']").val();
+            var phone= $("input[name='address_phone']").val();
+            var detail= $("input[name='address_detail']").val();
+            var city = $("#select1").val() + $("#select2").val() + $("#select3").val();
+            var reg = /^1[34578]\d{9}$/;
+            if(name !='' && reg.test(phone) && city !=''){
+                $.ajax({
+                    url:'order_address.html',
+                    type:'post',
+                    data:{name:name,city:city,detail:detail,phone:phone},
+                    dataType:'json',
+                    success:function (result) {
+                        $('.mask').hide();
+                        layer.msg(result.msg);
+                        if(result.code==20000){
+                            var data = result.data;
+                            if($("input[name='address_id']").length>0){
+                                $("input[name='address_id']").val(data.address_id);
+                                $(".address_info").html("收货人："+data.address_name+" 联系电话："+data.address_phone);
+                            }else{
+                                var item="<input type='hidden' name='address_id' value='"+data.address_id+"' />"+"<section class='add-address address_info'>收货人："+data.address_name+" 联系电话："+data.address_phone+"</section>";
+                                $(".add").after(item);
+                            }
+                        }
+                    }
+                });
+            }else{
+                layer.msg("请完善收货资料");
+                return false;
+            }
+        })
+        //提交订单
+        $(".total").click(function(){
+            var address_info_num = $(".address_info").length;
+            if(address_info_num>0){
+                $("#order_pay").submit();
+            }else{
+                layer.msg("请添加收货信息");return false;
+            }
+        });
+    })
+</script>
+</body>
+
+</html>

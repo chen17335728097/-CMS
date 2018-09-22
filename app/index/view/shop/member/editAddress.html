@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>编辑收货地址</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/newAddress.css">
+</head>
+
+<body>
+<section class="container">
+    <header class="header-box">
+        <i class="back"></i>
+        <h3>编辑收货地址</h3>
+        <a href="javascript:(0);" id="copy" style="font-size:16px;line-height: 0.45rem;width: 70px;text-align: center;color:red;">保 存</a>
+    </header>
+    <section class="address-box">
+        <div class="address-text">
+            <span>收货人</span>
+            <input type="text" name="name" value="<{$info.address_name}>" placeholder="联系人姓名">
+        </div>
+        <div class="address-text">
+            <span>联系电话</span>
+            <input type="text" name="phone" value="<{$info.address_phone}>" placeholder="联系人电话">
+        </div>
+        <div class="address-text address-select">
+            <span>收货地址</span>
+            <div class="distpicker" data-toggle='distpicker' style="margin-top:8px;">
+                <select style="width:25%;float:left;margin:2px;text-align:center;" class="select1"></select>
+                <select style="width:25%;float:left;margin:2px;text-align:center;" class="select2"></select>
+                <select style="width:25%;float:left;margin:2px;text-align:center;" class="select3"></select>
+            </div>
+        </div>
+        <div class="address-text">
+            <span>街道</span>
+            <input type="text" name="road" value="<{$info.address_road}>" placeholder="联系人街道">
+        </div>
+        <div class="address-text">
+            <textarea name="" id="" cols="30" rows="5" placeholder="请填写详细地址，不少于5个字"><{$info.address_detail}></textarea>
+        </div>
+    </section>
+</section>
+</section>
+<script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+<script charset="utf-8" src="__STATIC__/shop/js/distpicker.js"></script>
+<script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+<script charset="utf-8" src="__STATIC__/layer/layer.js"></script>
+<script charset="utf-8">
+    $(document).ready(function () {
+        $(".back").click(function () {
+            window.history.back();
+        });
+        // 设置页面最小高度为屏幕高度
+        $('.container').css({ 'min-height': $(window).height() });
+        $('#target').distpicker();
+    })
+</script>
+</body>
+<script type="text/javascript">
+    $(function(){
+        var editId = "<{$info.address_id}>";
+        $("#copy").click(function () {
+            var name= $("input[name='name']").val();
+            var phone= $("input[name='phone']").val();
+            var detail= $("#detail").val();
+            var province = $(".select1").val();
+            var city = $(".select2").val();
+            var country = $(".select3").val();
+            var road= $("input[name='road']").val();
+            var reg = /^1[34578]\d{9}$/;
+            var most_detail = province+city+country;
+            if(name=='' || most_detail=='' || !reg.test(phone)){
+                window.confirm('请完善收货地址资料~~~');return false;
+            }
+            $.ajax({
+                url:'editAddress.html',
+                type:'post',
+                data:{
+                    editId:editId,
+                    name:name,
+                    phone:phone,
+                    province:province,
+                    city:city,
+                    country:country,
+                    road:road,
+                    detail:detail,
+                },
+                dataType:'json',
+                success:function (result) {
+                    layer.msg(result.msg, {time: 4000, icon:6});
+                    if(result.code==20000){
+                        window.location.href="address_center.html";
+                    }
+                }
+            });
+        });
+    });
+</script>
+</html>

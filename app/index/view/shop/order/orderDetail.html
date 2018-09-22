@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="./css/myOrder.css">
+    <link rel="stylesheet" href="./css/nav.css">
+</head>
+
+<body>
+    <section class="container">
+        <header class="header-box">
+            <i class="back"></i>
+            <h3>订单详情</h3>
+        </header>
+        <section class="goodsList-box" style="display:block;">
+            <div class="orderTop">
+                <h3>等待收货</h3>
+                <p>订单金额<span>￥778.0</span></p>
+            </div>
+            <div class="margin-bottom">
+                <div class="orderText">
+                    <p>收件人: <span>张三</span></p>
+                    <p>18812156325</p>
+                </div>
+                <div class="orderText" style="line-height:.3rem;">
+                    <p>收货地址: <span>详细收货地址详细收货地址详细收货地址详细收货地址详细收货地址详细收货地址</span></p>
+                    <p></p>
+                </div>
+                <ul>
+                    <li>
+                        <div class="goods-right">
+                            <p>￥778.00</p>
+                            <span>X 1</span>
+                        </div>
+                        <div class="goods-img"><img src="./image/orderList-goods01.png" alt=""></div>
+                        <div class="goods-title">
+                            <p>初中全科年卡</p>
+                            <span>年卡</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="goods-right">
+                            <p>￥778.00</p>
+                            <span>X 1</span>
+                        </div>
+                        <div class="goods-img"><img src="./image/orderList-goods01.png" alt=""></div>
+                        <div class="goods-title">
+                            <p>初中全科年卡</p>
+                            <span>年卡</span>
+                        </div>
+                    </li>
+                </ul>
+                <div class="orderText smallText">
+                    <p>商品小计</p>
+                    <p>￥778.0</p>
+                </div>
+                <div class="orderText smallText">
+                    <p>运费</p>
+                    <p>￥00.00</p>
+                </div>
+                <div class="orderText smallText">
+                    <p>实付款</p>
+                    <p class="redText">￥778.0</p>
+                </div>
+                <div style="height:.2rem;background-color:#f2f2f2;"></div>
+                <div style="margin-top:.1rem;">
+                    <div class="orderText smallText">
+                        <p>订单编号：<span>48856120285611265</span></p>
+                        <p></p>
+                    </div>
+                    <div class="orderText smallText">
+                        <p>创建时间：<span>2017-12-25  10:58:52</span></p>
+                        <p></p>
+                    </div>
+                    <div class="orderText smallText">
+                        <p>付款时间：<span>2017-12-25  10:58:52</span></p>
+                        <p></p>
+                    </div>
+                    <div class="orderText smallText">
+                        <p>收货时间：<span>2017-12-25  10:58:52</span></p>
+                        <p></p>
+                    </div>
+                </div>
+                <div class="total ediorBtn">
+                    <a href="javascript:;">查看物流</a>
+                    <a href="javascript:;">确认收货</a>
+                </div>
+            </div>
+        </section>
+    </section>
+    </section>
+
+    <script charset="utf-8" src="./js/jquery-3.2.1.js"></script>
+    <script charset="utf-8" src="./js/swiper-3.4.2.jquery.min.js"></script>
+    <script charset="utf-8" src="./js/rem.js"></script>
+    <script charset="utf-8">
+        $(document).ready(function () {
+            // 设置页面最小高度为屏幕高度
+            $('.container').css({ 'min-height': $(window).height() });
+
+            $('.tab-box li').click(function () {
+                var index = $(this).index();
+                $(this).attr('class', "action").siblings('li').attr('class', '');
+                $('.goodsList-box').eq(index).show().siblings('.goodsList-box').hide();
+            })
+        })
+    </script>
+</body>
+
+</html>

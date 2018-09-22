@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>推广大使</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/personData.css">
+    <style type="text/css">
+        .address_select{
+            line-height: .5rem;
+            overflow: hidden;
+            font-size: .14rem;
+            color: #5d5d5d;
+            border-bottom: .01rem solid #c7c6c6;
+        }
+    </style>
+</head>
+<body>
+<section class="container">
+    <header class="header-box">
+        <i class="back"></i>
+        <h3>我的账户</h3>
+    </header>
+    <section class="headImg-box">
+        <p>头像</p>
+        <div class="headImg"><img src="<{$user_info.member_head_img_url}>" alt="微信头像"></div>
+    </section>
+    <section class="personName margin">
+        <p>昵称<i>*</i></p>
+        <input type="text" readonly placeholder="<{$user_info.member_nickname}>">
+    </section>
+    <section class="personName">
+        <p>姓名<i>*</i></p>
+        <input type="text" name="name" value="<{$user_info.member_name}>" placeholder="请输入姓名">
+    </section>
+    <section class="personName">
+        <p>手机号<i>*</i></p>
+        <input type="text" name="phone" value="<{$user_info.member_phone}>" placeholder="请输入您的手机号">
+    </section>
+    <{empty name="$user_info['member_position']"}>
+            <section class="personName address-select">
+                <p>所在城市<i>*</i></p>
+                <div class="distpicker" data-toggle='distpicker' style="margin-top:8px;">
+                    <select class="select1" style="width:23%;float:left;margin:2px;text-align:center;"></select>
+                    <select class="select2" style="width:23%;float:left;margin:2px;text-align:center;"></select>
+                    <select class="select3" style="width:23%;float:left;margin:2px;text-align:center;"></select>
+                </div>
+            </section>
+    <{else /}>
+            <section class="personName">
+                <p>地址<i>*</i></p>
+                <input type="text" readonly value="<{$user_info.member_position}>" ondblclick="show_div(this)">
+            </section>
+            <section class="personName address-select address_hiden" style="display:none;">
+                <p>所在城市<i>*</i></p>
+                <div class="distpicker" data-toggle='distpicker' style="margin-top:8px;">
+                    <select class="select1" style="width:23%;float:left;margin:2px;text-align:center;"></select>
+                    <select class="select2" style="width:23%;float:left;margin:2px;text-align:center;"></select>
+                    <select class="select3" style="width:23%;float:left;margin:2px;text-align:center;"></select>
+                </div>
+            </section>
+    <{/empty}>
+    <section class="personName address-select">
+        <p>详细地址<i>*</i></p>
+        <input type="text" name="detail" value="<{$user_info.member_detail}>" placeholder="请输入您的详细地址">
+    </section>
+    <section class="personName address_select">
+        <p>备注信息<i>*</i></p>
+        <textarea id="content" name="content" style="float:right;margin-right:3.5%;width: 70%;resize: none;" cols="20" rows="3" placeholder="请填写备注信息"><{$user_info.member_content}></textarea>
+    </section>
+    <section class="personName margin">
+        <p style="width: auto;float: none">上传群二维码(显示于马上用的二维码信息)</p>
+        <div>
+            <div class="promoteImg">
+                <{empty name="user_info['member_wx_code']"}>
+                <img src="__STATIC__/shop/image/promoteImg.png" alt="">
+                <{else /}>
+                <img src="__PUBLIC__/<{$user_info.member_wx_code}>" width="70px" height="70px;" alt="群微信二维码">
+                <{/empty}>
+            </div>
+            <input type="file" style="display:none" id="file_upload" name="file" value="" placeholder="上传资料">
+        </div>
+    </section>
+    <div class="agreementBox">
+        <input type="hidden" name="member_agree" value="20" />
+        <p class="active"></p>我已阅读<a href="member_promoteInfo.html">《推广大使协议》</a>
+    </div>
+    <section class="personName" id="showImg" style="text-align: center;margin: 10px auto 30px auto;">
+
+    </section>
+    <section class="submit">
+        <a href="javascript:(0);" id="edit">确认修改</a>
+    </section>
+</section>
+<script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+<script charset="utf-8" src="__STATIC__/shop/js/distpicker.js"></script>
+<script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+<script charset="utf-8" src="__STATIC__/layer/layer.js"></script>
+<script charset="utf-8">
+    $(document).ready(function () {
+        // 设置页面最小高度为屏幕高度
+        $('.container').css({ 'min-height': $(window).height() });
+        $('#target').distpicker();
+        // 协议
+        $('.agreementBox p').click(function () {
+            console.log($(this).attr('class'))
+            if(!$(this).attr('class')){
+                $(this).addClass('active')
+            }else {
+                $(this).removeClass('active')
+            }
+        })
+        $('.promoteImg').click(function () {
+            $('#file_upload').click();
+        })
+        $(".address_hiden").hide();
+        //提示
+        layer.msg('双击地址可以重新选择地址',{time: 5000, icon:7});
+    })
+</script>
+</body>
+<script src="http://malsup.github.io/jquery.form.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function(){
+        var manager = "<{$user_info.member_manager}>";
+        var member_agree = 10;
+        if(manager==20){
+            member_agree = 20;
+        }
+        $("#edit").click(function () {
+            var name= $("input[name='name']").val();
+            var phone= $("input[name='phone']").val();
+            var province = $(".select1").val();
+            var country = $(".select2").val();
+            var city = $(".select3").val();
+            var detail= $("input[name='detail']").val();
+            var content = $("#content").val();
+            var reg = /^1[34578]\d{9}$/;
+            var most_detail = province+country+city;
+            /*if(name=='' || most_detail=='' || !reg.test(phone)){
+                window.confirm('请完善收货地址资料~~~');return false;
+            }*/
+            if(!reg.test(phone)){
+                window.confirm('请输入正确手机号码格式');return false;
+            }
+            $.ajax({
+                url:'member_recommend_info.html',
+                type:'post',
+                data:{
+                    name:name,
+                    phone:phone,
+                    member_agree:member_agree,
+                    province:province,
+                    country:country,
+                    city:city,
+                    content:content,
+                    detail:detail,
+                    most_detail:most_detail,
+                    member_id:"<{$user_info.member_id}>"
+                },
+                dataType:'json',
+                success:function (result) {
+                    layer.msg(result.msg,{time: 5000, icon:1});
+                    window.location.href="person.html";
+                }
+            });
+        });
+
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".back").click(function () {
+            window.history.back();
+        });
+        //响应文件添加成功事件
+        $("#file_upload").change(function(){
+            //创建FormData对象
+            var data = new FormData();
+            //为FormData对象添加数据
+            $.each($('#file_upload')[0].files, function(i, file) {
+                data.append('upload_file'+i, file);
+            });
+            //发送数据
+            $.ajax({
+                url:'member_upload.html', /*去过那个php文件*/
+                type:'POST',  /*提交方式*/
+                data:data,
+                cache: false,
+                contentType: false,        /*不可缺*/
+                processData: false,         /*不可缺*/
+                success:function(result){
+                    console.log(result);
+                    if(result.code==20000){
+                        layer.msg('上传成功',{time: 4000, icon:6});
+                        $(".promoteImg").find('img').attr('src','/public/'+result.data[0]);
+                    }else{
+                        layer.msg('上传失败',{time: 4000, icon:6});
+                    }
+                },
+                error:function(){
+                    layer.msg('上传出错',{time: 4000, icon:6});
+                }
+            });
+        });
+    });
+    function show_div(ob){
+        if($(ob).hasClass('show')){
+            $(ob).removeClass('show');
+            $(".address_hiden").hide();
+        }else{
+            $(".address_hiden").show();
+            $(ob).addClass('show');
+        }
+
+    }
+</script>
+</html>

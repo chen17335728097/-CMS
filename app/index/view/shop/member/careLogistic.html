@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/careLogistic.css">
+</head>
+
+<body>
+    <section class="container">
+        <header class="header-box">
+            <i class="back"></i>
+            <h3>查看物流</h3>
+        </header>
+        <section class="goodsList-box" style="display:block;">
+            <div class="margin-bottom">
+                <ul>
+                    <li>
+                        <div class="goods-img"><img src="__STATIC__/shop/image/orderList-goods01.png" alt=""></div>
+                        <div class="goods-title">
+                            <h3>运输中</h3>
+                            <p><span>顺丰快递</span>：<span><{$order_info.goods_order_logistics}></span></p>
+                            <p>[收货地址]<span><{$order_info.goods_address_info}></span></p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <ul class="textDetail-box">
+                <{empty name="logistic"}>
+                <li><div class="status"><p class="active" style="width: 100%;margin: 0 auto;text-align: center;"><a href="http://m.kuaidi100.com/index.jsp" style="width: 100%;">查询快递</a></p></div></li>
+
+                <{else /}>
+                <li>
+                    <div class="status">
+                        <p class="active">12-5</p>
+                        <p class="active">已签收</p>
+                    </div>
+                    <div class="detail">
+                        <p class="active">10:25</p>
+                        <p class="active">XX市XX区派件员派送中</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="status">
+                        <p>12-5</p>
+                        <p>已签收</p>
+                    </div>
+                    <div class="detail">
+                        <p>10:25</p>
+                        <p>XX市XX区派件员派送中</p>
+                    </div>
+                </li>
+
+                <{/empty}>
+            </ul>
+        </section>
+    </section>
+    </section>
+
+    <script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/swiper-3.4.2.jquery.min.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+    <script charset="utf-8">
+        $(document).ready(function () {
+            // 设置页面最小高度为屏幕高度
+            $('.container').css({ 'min-height': $(window).height() });
+
+            $('.tab-box li').click(function () {
+                var index = $(this).index();
+                $(this).attr('class', "action").siblings('li').attr('class', '');
+                $('.goodsList-box').eq(index).show().siblings('.goodsList-box').hide();
+            })
+        })
+    </script>
+</body>
+
+</html>

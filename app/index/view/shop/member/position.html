@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <style type="text/css">
+        body, html, #allmap {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+            font-family: "微软雅黑";
+            font-size: 14px;
+        }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=abq9R42aY2DF4Mbd3XlQnzeNDm4yWal8"></script>
+    <title>周边</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/position.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/nav.css">
+    <script charset="utf-8" src="__STATIC__/shop/js/cityDate.js"></script>
+    <style>
+        .BMap_stdMpType4 .BMap_stdMpZoom {
+            top: -80px !important;
+        }
+
+        .BMap_geolocationIconBackground {
+            position: absolute;
+            bottom: 50px;
+        }
+    </style>
+</head>
+<body>
+<div id="allmap"></div>
+<div class="maskBox"></div>
+<div class="searchBox">
+    <span></span>
+</div>
+<section class="distpickerBox">
+    <ul class="provinces">
+    </ul>
+
+    <ul class="city">
+    </ul>
+
+    <ul class="area">
+    </ul>
+    <i class="cancle quxiao">X</i>
+</section>
+<div class="positionDetail">
+    <div class="detailTop">
+        <div class="detailHead"><img src="" alt=""></div>
+        <div class="detailText">
+            <h5></h5>
+            <p></p>
+            <p class="distance">3.6km</p>
+        </div>
+    </div>
+    <div class="detailBottom">
+        <div class="left">
+            <p><b>联系人:</b> <span></span></p>
+            <p><b>电话:</b> <a href=""></a></p>
+            <p><b>地址:</b> <span></span></p>
+        </div>
+        <div class="right">
+            <p>ta的群二维码</p>
+            <div class="erweima">
+
+            </div>
+        </div>
+    </div>
+    <i class="cancle">X</i>
+</div>
+<section class="positionContent">
+    <div class="top-button">
+        <img src="__STATIC__/shop/image/position-top.png">
+    </div>
+    <ul class="tab">
+        <li>离我最近 <i></i></li>
+        <li>服务之星 <i></i></li>
+    </ul>
+    <div class="content">
+        <ul>
+        </ul>
+    </div>
+</section>
+<{include file="shop/common:footer"}>
+<script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+<script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+</body>
+</html>
+<script type="text/javascript">
+    window.onload = function () {
+        $('.distpickerBox').hide()
+        var ak = 'abq9R42aY2DF4Mbd3XlQnzeNDm4yWal8';
+        var dataInfo = [],
+                currentPoint,
+                cardDate;
+        //根据各个点自适应显示地图
+        var map = new BMap.Map("allmap");
+
+var map = new BMap.Map("allmap");
+var point = new BMap.Point(116.331398,39.897445);
+map.centerAndZoom(point,12);
+
+var geolocation = new BMap.Geolocation();
+geolocation.getCurrentPosition(function(r){
+    if(this.getStatus() == BMAP_STATUS_SUCCESS){
+        var mk = new BMap.Marker(r.point);
+        map.addOverlay(mk);
+        map.panTo(r.point);
+        currentPoint = {'lng': r.point.lng, "lat": r.point.lat};
+        var myCity = new BMap.LocalCity();
+                myCity.get(myFun);
+                cardAjax(cardInfo)
+    }     
+});
+        var navigationControl = new BMap.NavigationControl({
+            // 靠左上角位置
+            anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+            // LARGE类型
+            type: BMAP_NAVIGATION_CONTROL_LARGE,
+            // 启用显示定位
+            enableGeolocation: false // 会多出一个点
+        });
+        map.addControl(navigationControl);
+        // 添加定位控件
+        var geolocationControl = new BMap.GeolocationControl();
+        geolocationControl.addEventListener("locationSuccess", function (e) {
+            // 定位成功事件
+            var address = '';
+            address += e.addressComponent.province;
+            address += e.addressComponent.city;
+            address += e.addressComponent.district;
+            address += e.addressComponent.street;
+            address += e.addressComponent.streetNumber;
+        });
+        geolocationControl.addEventListener("locationError", function (e) {
+            // 定位失败事件
+            alert('定位失败');
+        });
+        // distance
+        function distance(data) {
+            var m = [],
+                    km = [],
+            str = '';
+            data.forEach(function (item) {
+                if (item.distance.indexOf('km') > 0) {
+                    km.push(item)
+                } else {
+                    m.push(item)
+                }
+            })
+            km.sort(function (a, b) {
+                return parseFloat(a.distance) - parseFloat(b.distance)
+            })
+
+            m.sort(function (a, b) {
+                return parseFloat(a.distance) - parseFloat(b.distance)
+            })
+            allArr = m.concat(km)
+            allArr.forEach(function (item2) {
+                //            添加数据到弹出层里面
+                str += "<li data-id = '" + item2.member_id + "' data-distance = '" + item2.distance + "'><div class='headImg'><img src='" + item2.member_logo + "' /></div><p>" + item2.distance + "</p><p>" + item2.member_nickname + "</p><p>" + item2.member_position + "</p><p>" + item2.member_phone
+                        + "</p></li>"
+            })
+
+            $('.content ul').append(str)
+        }
+        function serveData(data) {
+            var serve = [],
+                    str = '';
+            data.sort(function (a, b) {
+                //console.log(a.grade_level.substr(1, 2));
+                return parseFloat(a.grade_level.substr(1,2)) - parseFloat(b.grade_level.substr(1,2))
+            })
+            data.forEach(function (item2) {
+                //            添加数据到弹出层里面
+                str += "<li data-id = '" + item2.member_id + "' data-distance = '" + item2.distance + "'><div class='headImg'><img src='" + item2.member_logo + "' /></div><p>" + item2.distance + "</p><p>" + item2.member_nickname + "</p><p>" + item2.member_position + "</p><p>" + item2.member_phone
+                        + "</p></li>"
+            })
+
+            $('.content ul').append(str)
+        }
+//    请求卡的数据
+        function cardAjax(callback) {
+            $.ajax({
+                url: 'http://www.wanmen.org.cn/api/position/return_back_agent',
+                data: {},
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res);
+                    dataInfo = res;
+                    callback && callback(res)
+                },
+                error: function (res) {
+                    console.log("报错")
+
+                }
+            })
+        }
+
+        var opts = {
+            width: 200,
+            height: 100,
+            fontSize : "14px !important",
+            lineHeight : "20px",
+            enableMessage: true,
+            message: '内容主题'
+        }
+
+        // 距离
+        function cardInfo(data) {
+            $('.content ul').html('')
+            var points = [];
+            //alert(data.length);
+            data.forEach(function (val) {
+                points.push(val.location)
+                var distance = (map.getDistance(new BMap.Point(val.location.lng, val.location.lat), new BMap.Point(currentPoint.lng, currentPoint.lat))).toFixed(2)
+                if ((distance / 1000).toFixed(2) > 1) {
+                    distance = (distance / 1000).toFixed(2) + 'km'
+                } else {
+                    distance += 'm'
+                }
+                val.distance = distance;
+            })
+            cardDate = data;
+
+            distance(data)
+
+            map.addControl(geolocationControl);
+            var view = map.getViewport(points);
+            map.enableScrollWheelZoom(true);
+            //添加多个点
+            for (var i = 0; i < points.length; i++) {
+                //console.log(data[i])
+                var item = points[i];
+                var p = new BMap.Point(item.lng, item.lat);
+                //自定义点图标
+                var iconUrl = "__STATIC__/shop/image/positionBtn.png";
+                var myIcon = new BMap.Icon(iconUrl, new BMap.Size(30, 40));
+                var marker = new BMap.Marker(p, {icon: myIcon});
+                map.addOverlay(marker);
+                var content = '姓名:'+data[i].member_nickname+'<br/>电话:'+data[i].member_phone+'<br/>地址:'+data[i].member_position
+                addClickHandler(content,marker)
+            }
+        }
+
+        function addClickHandler(content,marker){
+            marker.addEventListener("click",function(e){
+                openInfo(content,e)}
+            );
+        }
+        function openInfo(content,e){
+            var p = e.target;
+            var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+            var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象
+            map.openInfoWindow(infoWindow,point); //开启信息窗口
+            var s = p.point.lat + ',' + p.point.lng;
+            //var map = new BMap.Map("l-map");
+            // 创建地理编码实例
+            //var myGeo = new BMap.Geocoder();
+            // 根据坐标得到地址描述
+           // myGeo.getLocation(new BMap.Point(p.point.lng, p.point.lat), function(result){
+            //    console.log(result);exit;
+           // });
+             request_address_point(s,pointPosition);
+        }
+        function pointPosition(a){
+             if(a){
+                 cardInfo(a);
+                $('.top-button').find('img').attr('src',"__STATIC__/shop/image/position-bottom.png");
+                $('.positionContent').css({'bottom': '7%'})
+            }
+        }
+        // 等级
+        function serveInfo(data) {
+            $('.content ul').html('')
+            var points = [];
+            data.forEach(function (val) {
+                points.push(val.location)
+                var distance = (map.getDistance(new BMap.Point(val.location.lng, val.location.lat), new BMap.Point(currentPoint.lng, currentPoint.lat))).toFixed(2)
+                if ((distance / 1000).toFixed(2) > 1) {
+                    distance = (distance / 1000).toFixed(2) + 'km'
+                } else {
+                    distance += 'm'
+                }
+                val.distance = distance;
+            })
+
+            serveData(data)
+
+            map.addControl(geolocationControl);
+            var view = map.getViewport(points);
+            var mapZoom = view.zoom;
+            var centerPoint = view.center;
+//            map.centerAndZoom(new BMap.Point(113.631924, 34.754674), 11);
+            map.enableScrollWheelZoom(true);
+            //添加多个点
+            for (var i = 0; i < points.length; i++) {
+                var item = points[i];
+                var p = new BMap.Point(item.lng, item.lat);
+                //自定义点图标
+	            var iconUrl = "__STATIC__/shop/image/positionBtn.png";
+                var myIcon = new BMap.Icon(iconUrl, new BMap.Size(30, 40));
+                var marker = new BMap.Marker(p, {icon: myIcon});
+                map.addOverlay(marker);
+            }
+        }
+
+        // 利用地理坐标获取城市信息
+        function myFun(result) {
+            var cityName = result.name;
+            // console.log(result);
+            // map.setCenter(cityName);
+            $('.searchBox span').html('请选择城市')
+        }
+
+        //利用城市信息,获取地理坐标,并定位
+        function theLocation(str) {
+            if (str != "") {
+                map.centerAndZoom(str, 11);      // 用城市名设置地图中心点
+            }
+        }
+
+        $('.top-button').click(function () {
+            if (parseFloat($('.positionContent').css('bottom')) < 0) {
+                $(this).find('img').attr('src',"__STATIC__/shop/image/position-bottom.png");
+                $('.positionContent').css({'bottom': '12%'})
+
+            } else {
+                $(this).find('img').attr('src',"__STATIC__/shop/image/position-top.png");
+                $('.positionContent').css({'bottom': '-59%'})
+            }
+        })
+        $('.content ul').on('click', 'li', function () {
+            var curId = $(this).attr('data-id'),
+                    distance = $(this).attr('data-distance');
+            for (var i = 0; i < dataInfo.length; i++) {
+                var curEle = dataInfo[i]
+                if (curEle.member_id == curId) {
+                    $('.detailBottom .right .erweima').find('img').remove();
+                    $('.detailHead img').attr('src', curEle.member_logo)
+                    $('.detailText h5').html(curEle.member_nickname)
+                    $('.detailText p').eq(0).html("[会员等级] " + curEle.grade_level)
+                    $('.detailText p').eq(1).html(distance)
+                    $('.detailBottom .left p').eq(0).find('span').html(curEle.member_name)
+                    $('.detailBottom .left p').eq(1).find('a').html(curEle.member_phone)
+                    $('.detailBottom .left p').eq(1).find('a').attr('href','tel:'+curEle.member_phone)
+                    $('.detailBottom .left p').eq(2).find('span').html(curEle.member_position)
+                    if(curEle.member_wx_code){
+                        $('.detailBottom .right .erweima').append("<img src='"+'__PUBLIC__/'+curEle.member_wx_code+"'/>");
+                    }
+                }
+            }
+            $('.maskBox').show()
+            $('.positionDetail').show()
+        })
+        $('.positionDetail').on('click', 'i', function () {
+            $('.maskBox').hide()
+            $('.positionDetail').hide()
+        })
+
+        //加载省份
+        var addrPro, addrCity, addrArea;  //存储省市区
+        provinces()
+        function provinces() {
+            var provincesData = DISTRICTS['100000'];
+            var str = '';
+            $.each(provincesData, function (index, val) {
+                str += "<li data-type='" + index + "'>" + val + "</li>"
+            })
+            $('.provinces').append(str)
+        }
+
+        //加载城市
+        $('.provinces').on('click', 'li', function () {
+            $('.provinces li').css({'backgroundColor':'white','color':'#000'})
+            $(this).css({'backgroundColor':'#0888ce','color':'#fff'})
+            $('.city').html('')
+            var num = $(this).attr('data-type');
+            addrPro = $(this).html()
+            var str = '';
+            var cityData = DISTRICTS[num];
+            $.each(cityData, function (index, val) {
+                str += "<li data-type='" + index + "'>" + val + "</li>"
+            })
+            $('.city').append(str)
+        })
+        //加载区域
+        $('.city').on('click', 'li', function () {
+            $('.city li').css({'backgroundColor':'white','color':'#000'})
+            $(this).css({'backgroundColor':'#0888ce','color':'#fff'})
+            $('.area').html('')
+            var num = $(this).attr('data-type');
+            addrCity = $(this).html();
+            var str = '';
+            var cityData = DISTRICTS[num];
+            $.each(cityData, function (index, val) {
+                str += "<li data-type='" + index + "'>" + val + "</li>"
+            })
+            $('.area').append(str)
+        })
+        $('.area').on('click', 'li', function () {
+            $('.area li').css({'backgroundColor':'white','color':'#000'})
+            $(this).css({'backgroundColor':'#0888ce','color':'#fff'})
+            addrArea = $(this).html()
+            $('.searchBox span').html(addrPro + ' ' + addrCity + ' ' + addrArea)
+            $('.distpickerBox').hide()
+            $('.maskBox').hide()
+            theLocation(addrArea)
+            searchCard(addrPro+addrCity+addrArea, cardInfo)
+        })
+
+        //选择地址
+        $('.searchBox span').click(function () {
+            $('.distpickerBox').show()
+            $('.maskBox').show()
+        })
+//        根据地址搜索卡信息
+        function searchCard(str, callback) {
+            $.ajax({
+                url: 'http://www.wanmen.org.cn/api/position/search_around_agent',
+                data: {
+                    keywords: str
+                },
+                dataType: 'json',
+                success: function (res) {
+                    //console.log(res.length);
+                    dataInfo = res;
+                    callback && callback(res)
+                },
+                error: function (res) {
+                    console.log("报错")
+                }
+            })
+        }
+        //逆地理位置编码服务
+        function request_address_point(str, callback) {
+            $.ajax({
+                url: 'http://www.wanmen.org.cn/api/position/returnPosition',
+                data: {
+                    keywords: str
+                },
+                dataType: 'json',
+                success: function (res) {
+                    //console.log(res);
+                    dataInfo = res;
+                    callback && callback(res)
+                    map.centerAndZoom(new BMap.Point(currentPoint.lng,currentPoint.lat), 11);
+                },
+                error: function (res) {
+                    console.log("报错")
+                }
+            })
+        }
+        //隐藏地址弹出层
+        $('.quxiao').click(function () {
+            $('.distpickerBox').hide()
+            $('.maskBox').hide()
+        })
+
+        $('.tab li').eq(0).click(function () {
+            cardInfo(cardDate)
+        })
+        $('.tab li').eq(1).click(function () {
+            serveInfo(cardDate)
+        })
+    };
+</script>

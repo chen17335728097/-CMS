@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/newAddress.css">
+    <style>
+        .drawal-text {
+            padding-bottom: .3rem;
+            background-color: white;
+            padding: .2rem;
+        }
+
+        .drawal-text p {
+            font-size: .14rem;
+            color: #5d5d5d;
+            line-height: .3rem;
+        }
+
+        .drawal-text p span,.drawal-number span{
+            color: #f49f12;
+            margin-left: .2rem;
+        }
+        .drawal-number{
+            background-color: white;
+            padding: .2rem;
+        }
+        .drawal-number p,.drawal-number span,.drawal-number h3{
+            font-size: .14rem;
+            line-height: .3rem;
+            display: inline;
+            color: #5d5d5d;
+        }
+        .drawal-number span{
+            margin-left: 1rem;
+            color: #f49f12;
+        }
+        .drawal-number h3{
+            margin-left: .3rem;
+            font-size: .24rem;
+        }
+        .drawal-number span.number{
+            margin: 0 !important;
+            color: #5d5d5d;
+        }
+        .drawal-number span.text{
+            color: #0888ce;
+            margin: 0 !important;
+        }
+        .drawal-number a{
+            line-height: .44rem;
+            background-color: #0888ce;
+            color: white;
+            font-size: .14rem;
+            text-align: center;
+            display: block;
+            margin-top: .2rem;
+            border-radius: .05rem;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="container">
+        <header class="header-box">
+            <i class="back"></i>
+            <h3>提现</h3>
+        </header>
+        <div class="drawal-text">
+            <p>提现到微信零钱<span>即时到账</span></p>
+        </div>
+        <div class="drawal-number">
+            <p>提现币数
+                <h3><{$user_info.member_study_currency+$user_info.member_recommend_currency+$user_info.member_sign_currency}></h3>
+                <span>￥<{:return_rebate_money($user_info.member_id)}></span>
+            </p>
+            <p>商城币余额
+                <span class="number">3000</span>币，
+                <span class="text">全部提现</span>
+            </p>
+            <a href="javascript:(0);">提现</a>
+        </div>
+    </section>
+    <script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/distpicker.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+    <script charset="utf-8">
+        $(document).ready(function () {
+            // 设置页面最小高度为屏幕高度
+            $('.container').css({ 'min-height': $(window).height() });
+            $(".back").click(function () {
+                window.history.back();
+            });
+        })
+    </script>
+</body>
+
+</html>

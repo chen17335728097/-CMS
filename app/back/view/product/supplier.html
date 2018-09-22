@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>广告管理</title>
+    <meta name="Keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="__STATIC__/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="__STATIC__/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+    <!-- page specific plugin styles -->
+
+    <!-- text fonts -->
+    <link rel="stylesheet" href="__STATIC__/assets/css/fonts.googleapis.com.css" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="__STATIC__/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="__STATIC__/assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="__STATIC__/assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="__STATIC__/assets/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="__STATIC__/assets/css/myStyle.css" />
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="__STATIC__/assets/css/ace-ie.min.css" />
+    <![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+    <script src="__STATIC__/assets/js/ace-extra.min.js"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+    <!--[if lte IE 8]>
+    <script src="__STATIC__/assets/js/html5shiv.min.js"></script>
+    <script src="__STATIC__/assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="no-skin">
+<{include file="public:nav_top"}>
+
+<div class="main-container ace-save-state" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.loadState('main-container')
+        } catch(e) {}
+    </script>
+
+    <div id="sidebar" class="sidebar                  responsive                    ace-save-state">
+        <script type="text/javascript">
+            try {
+                ace.settings.loadState('sidebar')
+            } catch(e) {}
+        </script>
+
+        <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+            <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                <a href="parameter.html" class="btn btn-success">
+                    <i class="ace-icon fa fa-desktop"></i>
+                </a>
+
+                <a href="add-content.html" class="btn btn-info">
+                    <i class="ace-icon fa fa-pencil"></i>
+                </a>
+
+                <a href="admin-list.html" class="btn btn-warning">
+                    <i class="ace-icon fa fa-users"></i>
+                </a>
+
+                <a href="ad.html" class="btn btn-danger">
+                    <i class="ace-icon fa fa-diamond"></i>
+                </a>
+            </div>
+
+            <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                <span class="btn btn-success"></span>
+
+                <span class="btn btn-info"></span>
+
+                <span class="btn btn-warning"></span>
+
+                <span class="btn btn-danger"></span>
+            </div>
+        </div>
+        <!-- /.sidebar-shortcuts -->
+
+        <!-- /.nav-list -->
+        <{include file="public:menu"}>
+        <!-- /.nav-list -->
+
+        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+            <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!--面包屑-->
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="ace-icon fa fa-home home-icon"></i>
+                        <a href="index.html">首页</a>
+                    </li>
+                    <li>
+                        <a href="#">商品管理</a>
+                    </li>
+
+                    <li class="active">供货商列表</li>
+                </ul>
+                <!-- /.breadcrumb -->
+
+                <div class="nav-search" id="nav-search">
+                    <form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="搜索 ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="ace-icon fa fa-search nav-search-icon"></i>
+								</span>
+                    </form>
+                </div>
+                <!-- /.nav-search -->
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#add-ad">
+                        <i class="ace-icon fa fa-plus"></i>
+                        添加供货商
+                    </button>
+                </div>
+
+                <div class="space-4"></div>
+
+
+                <!-- /.ace-settings-container -->
+                <!-- /.ace-settings-container -->
+
+                <div class="row">
+                    <!-- PAGE CONTENT BEGINS -->
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th class="hidden-480">ID</th>
+                            <th class="hidden-480">供货商图片</th>
+                            <th>供货商名称</th>
+                            <th class="hidden-480">添加时间</th>
+                            <th class="hidden-480">排序</th>
+                            <th>状态</th>
+                            <th style="border-right: 1px solid #ddd;">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <{PRESENT name="supplier_list"}>
+                        <{foreach name="supplier_list" item="supplier"}>
+                        <tr valign="middle">
+                            <td class="hidden-480">
+                                <span class="badge badge-grey"><{$supplier.supplier_id}></span>
+                            </td>
+
+                            <td class="hidden-480" style="vertical-align:middle;">
+                                <img src="__PUBLIC__/<{$supplier.supplier_logo}>" alt="" width="100px" height="56px"/>
+                            </td>
+                            <td>
+                                <{$supplier.supplier_name}>
+                            </td>
+                            <td class="hidden-480">
+                                <span class="label label-warning"><{$supplier.supplier_time}></span>
+                            </td>
+                            <td class="hidden-480">
+                                <input type="number" class="input-small" value="<{$supplier.supplier_order}>"/>
+                            </td>
+                            <td>
+                                <{eq name="supplier['supplier_open']" value="20"}>
+                                    <button class="status btn btn-minier btn-danger" onclick="">禁用</button>
+                                <{else /}>
+                                    <button class="status btn btn-minier btn-success" onclick="">开启</button>
+                                <{/eq}>
+                            </td>
+                            <td>
+                                <button class="btn btn-xs btn-info" data-toggle="modal" data-id="<{$supplier.supplier_id}>" data-target="#edit-ad">
+                                    <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                </button>
+                                <button class="btn btn-xs btn-danger bootbox-del" data-id="<{$supplier.supplier_id}>">
+                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <{/foreach}>
+                        <{/PRESENT}>
+                        </tbody>
+                    </table>
+
+                    <!-- PAGE CONTENT ENDS -->
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <ul class="pagination no-margin">
+
+                    </ul>
+                </div>
+            </div>
+            <!-- /.page-content -->
+        </div>
+    </div>
+    <!-- /.main-content -->
+
+    <{include file="public:footer"}>
+</div>
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+</a>
+</div>
+<!-- /.main-container -->
+
+<!-- 添加供货商模态框（Modal） -->
+<!-- 显示模态框（Modal） -->
+<div class="modal fade" id="add-ad" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <form class="form-horizontal ajaxForm2" name="plug_ad_add" method="post" action="add_supplier.html" enctype="multipart/form-data">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        添加供货商
+                    </h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> &nbsp;&nbsp;名称：  </label>
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="输入供货商名称" name="supplier_name" class="col-xs-12 col-sm-10" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> &nbsp;联系人：  </label>
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="输入供货商联系人" name="supplier_contacts" class="col-xs-12 col-sm-10" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> &nbsp;&nbsp;tel：  </label>
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="输入供货商电话" name="supplier_tel" class="col-xs-12 col-sm-10" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> &nbsp;&nbsp;地址：  </label>
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="输入供货商地址" name="supplier_address" class="col-xs-12 col-sm-10" required/>
+                                </div>
+                            </div>
+                            <div class="form-group" id="pic_list">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> &nbsp;&nbsp;LOGO： </label>
+                                <div class="col-sm-8">
+                                    <input type="file" id="id-input-file-2" name="supplier_pic"/>
+                                    <div><img src="__STATIC__/assets/images/no_img.jpg" height="70" id=""></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="pic_listurl">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> &nbsp;&nbsp;URL：  </label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="supplier_url" id="supplier_url" placeholder="必须是以http://开头" class="col-xs-12 col-sm-10" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 是否开启 ： </label>
+                                <div class="col-sm-8" style="padding-top:5px;">
+                                    <input value="20" class="ace ace-switch ace-switch-4 btn-empty" name="supplier_open" type="checkbox" />
+                                    <span class="lbl">&nbsp;&nbsp;默认关闭</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 排序：  </label>
+                                <div class="col-sm-8">
+                                    <input type="number" name="supplier_order" value="255" class="col-xs-12 col-sm-5" />
+                                    <span class="lbl">&nbsp;&nbsp;<span class="red">*</span>从小到大排序</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">
+                        <i class="ace-icon fa fa-save"></i>
+                        提交保存
+                    </button>
+                    <button class="btn btn-info" type="reset">
+                        <i class="ace-icon fa fa-refresh"></i>
+                        重置
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <i class="ace-icon fa fa-close"></i>
+                        关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </form>
+</div>
+<!-- /.modal -->
+
+<!-- 修改供货商模态框（Modal） -->
+<div class="modal fade" id="edit-ad" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <form class="form-horizontal ajaxForm2" name="plug_ad_add" enctype="multipart/form-data" method="post" action="edit_supplier.html">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        编辑供货商
+                    </h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> &nbsp;&nbsp;名称：  </label>
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="输入供货商名称" id="edit_supplier_name" name="supplier_name" class="col-xs-12 col-sm-10" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> &nbsp;联系人：  </label>
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="输入供货商联系人"  id="edit_supplier_contacts" name="supplier_contacts" class="col-xs-12 col-sm-10" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> &nbsp;&nbsp;tel：  </label>
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="输入供货商电话" name="supplier_tel"  id="edit_supplier_tel" class="col-xs-12 col-sm-10" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> &nbsp;&nbsp;地址：  </label>
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="输入供货商地址" name="supplier_address"  id="edit_supplier_address" class="col-xs-12 col-sm-10" required/>
+                                </div>
+                            </div>
+                            <div class="form-group" id="pic_list">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> &nbsp;&nbsp;LOGO： </label>
+                                <div class="col-sm-8">
+                                    <input type="file" id="id-input-file-2" name="supplier_pic"/>
+                                    <div><img src="__STATIC__/assets/images/no_img.jpg" height="70" id="edit_supplier_logo"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="pic_listurl">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> &nbsp;&nbsp;URL：  </label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="supplier_url" id="edit_supplier_url" placeholder="必须是以http://开头" class="col-xs-12 col-sm-10" />
+                                </div>
+                            </div>
+                            <input type="hidden" name="supplier_id" id="edit_supplier_id" value="" />
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 是否开启 ： </label>
+                                <div class="col-sm-8" style="padding-top:5px;">
+                                    <input value="20" class="ace ace-switch ace-switch-4 btn-empty"  id="edit_supplier_open" name="supplier_open" type="checkbox" />
+                                    <span class="lbl">&nbsp;&nbsp;默认关闭</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 排序：  </label>
+                                <div class="col-sm-8">
+                                    <input type="number" name="supplier_order" value="255"  id="edit_supplier_order" class="col-xs-12 col-sm-5" />
+                                    <span class="lbl">&nbsp;&nbsp;<span class="red">*</span>从小到大排序</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">
+                        <i class="ace-icon fa fa-save"></i>
+                        提交保存
+                    </button>
+                    <button class="btn btn-info" type="reset">
+                        <i class="ace-icon fa fa-refresh"></i>
+                        重置
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <i class="ace-icon fa fa-close"></i>
+                        关闭
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </form>
+</div>
+<!-- /.modal -->
+
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+<script src="__STATIC__/assets/js/jquery-2.1.4.min.js"></script>
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script src="__STATIC__/assets/js/jquery-1.11.3.min.js"></script>
+<![endif]-->
+<script type="text/javascript">
+    if('ontouchstart' in document.documentElement) document.write("<script src='__STATIC__/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+</script>
+<script src="__STATIC__/assets/js/bootstrap.min.js"></script>
+
+<!-- page specific plugin scripts -->
+
+<!--[if lte IE 8]>
+<script src="__STATIC__/assets/js/excanvas.min.js"></script>
+<![endif]-->
+<script src="__STATIC__/assets/js/jquery-ui.custom.min.js"></script>
+<script src="__STATIC__/assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="__STATIC__/assets/js/bootbox.js"></script>
+<script src="__STATIC__/assets/js/jquery.easypiechart.min.js"></script>
+<script src="__STATIC__/assets/js/jquery.gritter.min.js"></script>
+<script src="__STATIC__/assets/js/spin.js"></script>
+
+<!-- ace scripts -->
+<script src="__STATIC__/assets/js/ace-elements.min.js"></script>
+<script src="__STATIC__/assets/js/ace.min.js"></script>
+<script src="__STATIC__/assets/js/main.js"></script>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    jQuery(function($) {
+        //编辑按钮
+        var editObj = new Object(<{$supplierMenu}>);
+        $(".btn-info").on(ace.click_event,function(){
+            var editid = $(this).attr('data-id');
+
+            if(editObj !=""){
+                for(var info in editObj){
+                    var mid = editObj[info].supplier_id;
+                    if(mid==editid){
+                        var img_pic = "__PUBLIC__" + "/" + editObj[info].supplier_logo;
+                        var pid = editObj[info].column_id;
+                        $("#edit_supplier_id").val(editid);
+                        $("#edit_supplier_name").val(editObj[info].supplier_name);
+                        $("#edit_supplier_url").val(editObj[info].supplier_url);
+                        $("#edit_supplier_order").val(editObj[info].supplier_order);
+                        $("#edit_supplier_tel").val(editObj[info].supplier_tel);
+                        $("#edit_supplier_address").val(editObj[info].supplier_address);
+                        $("#edit_supplier_contacts").val(editObj[info].supplier_contacts);
+                        if(editObj[info].supplier_open == 20){
+                            //alert(editObj[info].supplier_open);
+                            $("#edit_supplier_open").attr("checked","checked");
+                        }
+                        $("#edit_supplier_logo").attr('src',img_pic);
+                        $("#edit_column_id>option").each(function(index,value){
+                            var spid = $("#edit_column_id>option").eq(index).val();
+
+                            if(pid==spid) {
+                                $("#edit_column_id>option").eq(index).prop("selected", true);
+                            }
+                        });
+                    }
+                }
+            }
+        });
+        //删除供货商
+        $(".bootbox-del").on(ace.click_event, function() {
+            var delId = $(this).attr("data-id");
+
+            bootbox.confirm({
+                message: "是否删除本条供货商？",
+                size: 'small',
+                buttons: {
+                    confirm:{label:"确认删除"},
+                    cancel:{label:"取消删除"}
+                },
+                callback: function(result) {
+                    if(result) {
+                        //确定后执行
+                        $.ajax({
+                            url:"del_supplier.html",
+                            type:"post",
+                            data:{delId:delId},
+                            dataType:"json",
+                            success:function(re){
+                                if(re.code==200){
+                                    window.alert(re.msg);
+                                    window.location.href="p_supplier.html";
+                                }else{
+                                    window.alert(re.msg);
+                                    return false;
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+    });
+</script>
+</body>
+
+</html>

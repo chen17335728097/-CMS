@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/signIn.css">
+</head>
+
+<body>
+
+<section class="container">
+    <header class="header-box">
+        <i class="back"></i>
+        <h3>签到</h3>
+    </header>
+    <section class="signIn-top">
+        <p>“每签到一次可得2枚签到币哦！”</p>
+        <{empty name="sign_state"}>
+            <a href="javascript:(0);" id="button">今日签到</a>
+        <{else /}>
+            <a href="javascript:(0);" >已签到</a>
+        <{/empty}>
+    </section>
+    <section class="totalNumber">
+        本月已签到<span class="totalDay">2</span>天 共获得<span class="total">2</span>枚签到币
+    </section>
+    <section>
+        <div class="home">
+            <table cellspacing="1" cellpadding="1">
+                <thead id="thead">
+                <tr>
+                    <td>日</td>
+                    <td>一</td>
+                    <td>二</td>
+                    <td>三</td>
+                    <td>四</td>
+                    <td>五</td>
+                    <td>六</td>
+                </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </section>
+</section>
+
+<script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+<script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+<script charset="utf-8" src="__STATIC__/layer/layer.js"></script>
+<script charset="utf-8">
+    $(document).ready(function () {
+        var sign_id = "<{$user_info.member_id}>";
+        $('.container').css({'min-height': $(window).height()});
+        qiandaoDays()
+        var pArr = document.getElementsByClassName('p'),
+            spanArr = document.getElementsByTagName('span')
+        //获取签到的天数
+        var daysArr = [],  //保存签到的天数
+                days = [];  //保存日数
+        function qiandaoDays() {
+            $.ajax({
+                url: 'http://www.wanmen.org.cn/api/calendar/calendar',
+                data: {"id": sign_id},
+                dataType: 'json',
+                success: function (res) {
+                    daysArr = res.data;
+                    $('.totalDay').text(daysArr.length);
+                    $('.total').text(daysArr.length * 2)
+                    for (var i = 0, len = daysArr.length; i < len; i++) {
+                        var curDay = daysArr[i];
+                        var dayCon = parseInt(curDay.calendar_time.split('-')[2]);
+                        for(var r=0;r<pArr.length;r++){
+                           var pCur =  parseInt(pArr[r].innerHTML)
+                           if(dayCon === pCur){
+                               spanArr[dayCon+1].innerHTML = '已签'
+                               spanArr[dayCon+1].style.color = 'red'
+                           }
+                        }
+                    }
+                },
+                error: function (res) {
+                    console.log(res)
+                }
+            })
+        }
+
+        var sliarrn = []
+        var $thead = $('#thead'),
+                $tbody = $('#tbody'),
+                $button = $('#button'),
+                wk = false,
+                slidate = new Date(),
+                _nullnei = '',
+                de = slidate.getDate() + 1;
+        var monthFirst = new Date(slidate.getFullYear(), parseInt(slidate.getMonth()), 1).getDay();//获取当月的1日等于星期几
+        var d = new Date(slidate.getFullYear(), parseInt(slidate.getMonth() + 1), 0); //获取月
+        var conter = d.getDate();//获取当前月的天数
+
+        //遍历日历网格
+        for (var i = 1; i <= 6; i++) {
+            _nullnei += "<tr>";
+            for (var j = 1; j <= 7; j++) {
+                _nullnei += '<td></td>';
+            }
+            _nullnei += "</tr>";
+        }
+        $tbody.html(_nullnei);
+
+        //遍历网格内容
+        var $slitd = $tbody.find("td");
+        for (var i = 0; i < conter; i++) {
+            if (i < 9) {
+                $slitd.eq(i + monthFirst).html("<p class='p'>" + '0' + parseInt(i + 1) + "</p><span style='margin-top:3px;'>未签</span>")
+            } else {
+                $slitd.eq(i + monthFirst).html("<p class='p'>" + parseInt(i + 1) + "</p><span style='margin-top:3px;'>未签</span>")
+            }
+        }
+        $button.on("click", function () {
+            if (wk == true) {
+                sliarrn.push(de - 1);//把当日传入已签
+            }
+            $.ajax({
+                url: 'http://www.wanmen.org.cn/api/Calendar/signCalendar',
+                type: 'GET',
+                data: {"id": sign_id},
+                dataType: 'JSON',
+                success: function (res) {
+                    layer.msg(res.msg, {time: 4000, icon:6});
+                    $("#button").html("已签到");
+                    $("#button").unbind("click");
+                    qiandaoDays()
+                    wk = true;
+                },
+                error: function (res) {
+                    console.log(res)
+                }
+            })
+        })
+        $(".back").click(function () {
+            window.history.back();
+        });
+    })
+</script>
+</body>
+
+</html>

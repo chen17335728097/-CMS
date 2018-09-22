@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/personMall.css">
+</head>
+
+<body>
+    <section class="container">
+        <div class="title">
+            <img src="__STATIC__/shop/image/person-mall1.png" alt="">
+            <img src="__STATIC__/shop/image/person-mall2.png" alt="">
+        </div>
+        <div class="share">
+            <a href="recommend.html?recommend=<{$recommend}>"><img src="__STATIC__/shop/image/mallShare.png" alt="分享"></a>
+        </div>
+        <div class="mall-content">
+            <h3 class="mallTill">商城币排行榜</h3>
+            <div class="mallBox">
+               <{foreach name="info_list" item="info"}>
+                    <ul class='mall'>
+                        <li><{$key+1}></li>
+                        <li>
+                            <div class="headImg"><img src="<{$info.member_logo}>" style="width: 0.35rem;height:0.35rem;border-radius:50%;overflow: hidden;" alt="">
+                                <span class="lever"><{php}>$member_value = return_member_grade($user_info['member_value']);echo $member_value['grade_level'];<{/php}></span></div>
+                        </li>
+                        <li>
+                            <p><{$info.member_nickname}></p>
+                            <p><img src="__STATIC__/shop/image/position.png" /><{$info.member_position|mb_substr=###,0,10,'utf-8'}></p>
+                        </li>
+                        <li>
+                            <p><{$info.member_recommend_num*20}>枚</p>
+                            <p>已推荐<{$info.member_recommend_num}>人</p>
+                        </li>
+                    </ul>
+               <{/foreach}>
+            </div>
+        </div>
+    </section>
+    <script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+    <script charset="utf-8">
+        $(document).ready(function () {
+            // 设置页面最小高度为屏幕高度
+            $('.container').css({ 'min-height': $(window).height() });
+        })
+    </script>
+</body>
+</html>

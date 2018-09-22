@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/personData.css">
+</head>
+
+<body>
+    <section class="container">
+        <header class="header-box">
+            <i class="back"></i>
+            <h3>我的账户</h3>
+        </header>
+        <section class="headImg-box">
+            <p>头像</p>
+            <div class="headImg"><img src="<{$user_info.member_head_img_url}>" alt="微信头像"></div>
+
+        </section>
+        <section class="personName margin">
+            <p>昵称<i>*</i></p>
+            <input type="text" readonly placeholder="<{$user_info.member_nickname}>">
+        </section>
+        <section class="personName">
+            <p>姓名<i>*</i></p>
+            <input type="text" name="name" value="<{$user_info.member_name}>" placeholder="请输入姓名">
+        </section>
+        <section class="personName">
+            <p>手机号<i>*</i></p>
+            <input type="text" name="phone" value="<{$user_info.member_phone}>" placeholder="请输入您的手机号">
+        </section>
+        <section class="submit" style="margin-top: 0.7rem;">
+            <a href="javascript:(0);" id="edit">确认修改</a>
+        </section>
+    </section>
+    <script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/distpicker.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+    <script charset="utf-8" src="__STATIC__/layer/layer.js"></script>
+    <script charset="utf-8">
+        $(document).ready(function () {
+            // 设置页面最小高度为屏幕高度
+            $('.container').css({ 'min-height': $(window).height() });
+            $('#target').distpicker();
+            // 协议
+            $('.agreementBox p').click(function () {
+                if(!$(this).attr('class')){
+                    $(this).addClass('active')
+                }else {
+                    $(this).removeClass('active')
+                }
+            })
+            $('.promoteImg').click(function () {
+                $('#file_upload').click();
+            })
+        })
+    </script>
+</body>
+<script src="http://malsup.github.io/jquery.form.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#edit").click(function () {
+            var name= $("input[name='name']").val();
+            var phone= $("input[name='phone']").val();
+            var reg = /^1[34578]\d{9}$/;
+            if(!reg.test(phone)){
+                layer.msg(result.msg, {time: 4000, icon:6});
+                window.confirm('请输入正确手机号码格式');return false;
+            }
+            $.ajax({
+                url:'member_general.html',
+                type:'post',
+                data:{name:name,phone:phone},
+                dataType:'json',
+                success:function (result) {
+                    layer.msg(result.msg, {time: 4000, icon:6});
+                    if(result.code==20000){
+                        window.location.href="person.html";
+                    }
+                }
+            });
+        });
+
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".back").click(function () {
+            window.history.back();
+        });
+        //响应文件添加成功事件
+        $("#file_upload").change(function(){
+            //创建FormData对象
+            var data = new FormData();
+            //为FormData对象添加数据
+            $.each($('#file_upload')[0].files, function(i, file) {
+                data.append('upload_file'+i, file);
+            });
+            //发送数据
+            $.ajax({
+                url:'member_upload.html', /*去过那个php文件*/
+                type:'POST',  /*提交方式*/
+                data:data,
+                cache: false,
+                contentType: false,        /*不可缺*/
+                processData: false,         /*不可缺*/
+                success:function(result){
+                    console.log(result);
+                    if(result.code==20000){
+                        alert('上传成功');
+                    }else{
+                        alert('上传失败');
+                    }
+                },
+                error:function(){
+                    alert('上传出错');
+                }
+            });
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,125 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/> 
+    <title>微信支付</title>
+	<style type="text/css">
+		.sec{
+			position: relative;
+			width: 100%;
+		}
+		.sec .ion{
+			position: absolute;
+			top: 6rem;
+			left: 50%;
+			margin-left: -3.8rem;
+			width: 7.6rem;
+			height: 6.7rem;
+		}
+		.sec .je{
+			position: absolute;
+			top: 16rem;
+			width: 100%;
+			margin: auto;
+		}
+		.sec .je p{
+			margin: 0.8rem 0;
+		}
+		.sec .ion img{
+			width: 100%;
+			height: 100%;
+		}
+		.btn{
+			position: relative;
+			top: 25rem;
+			width: 100%;
+			text-align: center;
+
+		}
+		.btn a{
+			display: inline-block;
+			width: 80%;
+			height: 3rem;
+			line-height: 3rem;
+			background: #ff6614;
+			font-weight: bold;
+			border-radius: 0.4rem;
+			color: #fff;
+			text-align: center;
+			text-decoration: none;
+		}
+	</style>
+</head>
+<body>
+<section class="sec">
+	<div class="ion">
+		<img src="__PUBLIC__/img/icon.png" alt="支付" />
+	</div>
+	<div class="je">
+		<p align="center"><span>支付金额</span></p>
+		<eq name="coupon_info['status']" value="10">
+			<p align="center">
+				<img src="{$coupon_info.pic}" width="50px" height="30px">
+			</p>
+		</eq>
+			<p align="center"><strong style="font-size: 1.8rem;color: #FF6614;">￥:{$price}</strong></p>
+
+
+
+	</div>
+</section>
+<section class="btn">
+	<a href="javascript:(0);"  id="paybutton" onclick="callpay()">立即支付</a>
+</section>
+	<script src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+	 <script type="text/javascript">
+	 	var order_sn = "{$order_sn}";
+		var coupon = "{$coupon_info.coupon_id}";
+		function jsApiCall()
+		{
+			WeixinJSBridge.invoke(
+					'getBrandWCPayRequest', {$param},
+					function(res){
+						//alert('err_code:'+res.err_code+'err_desc:'+res.err_desc+'err_msg:'+res.err_msg);
+						var obj = document.getElementById('paybutton');
+						if(res.err_msg == "get_brand_wcpay_request:ok"){
+							//查询订单支付状态
+							$.ajax({
+								url:"{:U('Home/Order/checkStatus')}",
+								type:'post',
+								data:{order_sn:order_sn,pay_method:coupon},
+								dataType:'json',
+								success:function(result){
+									//支付成功，启动机械设备
+									if(result.status){
+										if(result.machine !='' && result.order_sn !=''){
+											machine = result.machine;
+											var jump_url = "{:U('Home/Trigger/start_trigger')}?order_sn="+order_sn+"&machine="+machine;
+											window.location.href= jump_url;
+										}
+									}else{
+										alert("订单支付失败~~~");
+									}
+								}
+							});
+						}
+					}
+			);
+		}
+
+		function callpay()
+		{
+			if (typeof WeixinJSBridge == "undefined"){
+				if( document.addEventListener ){
+					document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+				}else if (document.attachEvent){
+					document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+					document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+				}
+			}else{
+				jsApiCall();
+			}
+		}
+	</script>
+</body>
+</html>

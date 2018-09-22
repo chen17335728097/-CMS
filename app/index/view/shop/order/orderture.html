@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="./css/orderTure.css">
+    <link rel="stylesheet" href="./css/nav.css">
+</head>
+
+<body>
+    <section class="container">
+        <header class="header-box">
+            <i></i>
+            <h3>确认订单</h3>
+        </header>
+        <section class="add-address">+ 添加收货地址</section>
+        <section class="goodsList-box">
+            <ul>
+                <li>
+                    <div class="goods-right">
+                        <p>￥778.00</p>
+                        <span>X 1</span>
+                    </div>
+                    <div class="goods-img"><img src="./image/orderList-goods01.png" alt=""></div>
+                    <div class="goods-title">
+                        <p>初中全科年卡</p>
+                        <span>年卡</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="goods-right">
+                        <p>￥778.00</p>
+                        <span>X 1</span>
+                    </div>
+                    <div class="goods-img"><img src="./image/orderList-goods01.png" alt=""></div>
+                    <div class="goods-title">
+                        <p>初中全科年卡</p>
+                        <span>年卡</span>
+                    </div>
+                </li>
+            </ul>
+            <div class="message">
+                <span>留言：</span>
+                <textarea name="" id="" cols="25" rows="2" maxlength="50" placeholder="(选填)最多50个字"></textarea>
+            </div>
+            <div class="courier">
+                <p>快递：<span>免邮</span></p>
+            </div>
+            <div class="total">
+                <p>共<span>2</span>件商品，共计<span>￥916</span></p>
+            </div>
+            <section class="pay-box">
+                <div>需付<span class="price">￥916.0</span></div>
+                <div><span class="total">立即支付</span></div>
+            </section>
+        </section>
+
+        <section class="mask">
+            <section class="addDress-box">
+                <div class="layer-title">请填写收货地址</div>
+                <div class="layer-text">
+                    <span>收货人</span>
+                    <input type="text" placeholder="收货人姓名">
+                </div>
+                <div class="layer-text">
+                    <span>手机号</span>
+                    <input type="text" placeholder="联系电话">
+                </div>
+                <div class="layer-select">
+                    <span>选择地址</span>
+                    <div class="distpicker" data-toggle='distpicker'>
+                        <select dir="rtl"></select>
+                        <select dir="rtl"></select>
+                        <select dir="rtl"></select>
+                    </div>
+                </div>
+                <div class="layer-text">
+                    <span>详细地址</span>
+                    <input type="text" placeholder="请写门牌号等">
+                </div>
+                <div class="layerBtn">
+                    <a href="javasript:;">保存地址</a>
+                </div>
+                <div class="cancle"></div>
+            </section>
+        </section>
+    </section>
+
+    <script charset="utf-8" src="./js/jquery-3.2.1.js"></script>
+    <script charset="utf-8" src="./js/swiper-3.4.2.jquery.min.js"></script>
+    <script charset="utf-8" src="./js/distpicker.js"></script>
+    <script charset="utf-8" src="./js/rem.js"></script>
+    <script charset="utf-8">
+        $(document).ready(function () {
+            // 设置页面最小高度为屏幕高度
+            $('.container').css({ 'min-height': $(window).height() });
+
+            $('.tab-box li').click(function () {
+                var index = $(this).index();
+                $(this).attr('class', "action").siblings('li').attr('class', '');
+                $('.person-contentBox > div').eq(index).show().siblings('.person-contentBox > div').hide();
+            })
+            $('#target').distpicker();
+            $('.cancle').click(function(){
+                $('.mask').hide()
+            })
+            $('.add-address').click(function(){
+                $('.mask').show()
+            })
+            $('.layerBtn').click(function(){
+                $('.mask').hide()
+            })
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品分类列表</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/card.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/nav.css">
+</head>
+<body>
+    <section class="container">
+        <section class="tab-box">
+            <ul>
+                <{php}>$m=0;<{/php}>
+                <{foreach name="class_list" item="column"}>
+                    <li <{eq name="m" value="$number"}> class="action" <{/eq}> ><{$column.pc_name}></li>
+                    <{php}>$m++;<{/php}>
+                <{/foreach}>
+            </ul>
+        </section>
+        <section class="content-box">
+            <{php}>$m=0;<{/php}>
+            <{foreach name="class_list" item="column"}>
+                    <{eq name="m" value="0"}>
+                        <{empty name="column['goods_list']"}>
+                            <div class="content-xiao" <{eq name="number" value="0"}>style="display:block"<{/eq}>>
+                                <div class="contentBox">
+                                    <img src="__STATIC__/shop/image/card-content-xiao.png" alt="">
+                                    <p>我们的老师正在挑灯夜战的录制中.......</p>
+                                    <h3>敬请期待！</h3>
+                                </div>
+                            </div>
+                        <{else /}>
+                            <div class="content-chu" <{eq name="number" value="0"}>style="display:block"<{/eq}>>
+                                    <{foreach name="column['goods_list']" item="goods"}>
+                                        <div class="contentBox">
+                                            <div class="content-img"><a href="goods.html?goods_id=<{$goods.product_id}>&recommend=<{$recommend}>"><img src="__PUBLIC__/<{$goods.product_image}>" alt=""></a></div>
+                                            <div class="content-text">
+                                                <p><{$goods.product_name}></p>
+                                                <div class="content-pay">
+                                                    <p class="pay"><span>￥<{$goods.product_sale_price}></span> <i>￥<{$goods.product_market_price}></i></p>
+                                                    <p class="number"> &nbsp;<span><{$goods.product_base_sale_count}></span>件已售</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <{/foreach}>
+                                </div>
+                        <{/empty}>
+                    <{/eq}>
+                    <{eq name="m" value="1"}>
+                        <{empty name="column['goods_list']"}>
+                            <div class="content-xiao hidden" <{eq name="number" value="0"}>style="display:block"<{/eq}>>
+                                <div class="contentBox">
+                                    <img src="__STATIC__/shop/image/card-content-xiao.png" alt="">
+                                    <p>我们的老师正在挑灯夜战的录制中.......</p>
+                                    <h3>敬请期待！</h3>
+                                </div>
+                            </div>
+                        <{else /}>
+                            <div class="content-chu hidden" <{eq name="number" value="0"}>style="display:block"<{/eq}>>
+                                <{foreach name="column['goods_list']" item="goods"}>
+                                    <div class="contentBox">
+                                        <div class="content-img"><a href="goods.html?goods_id=<{$goods.product_id}>&recommend=<{$recommend}>"><img src="__PUBLIC__/<{$goods.product_image}>" alt=""></a></div>
+                                        <div class="content-text">
+                                            <p><{$goods.product_name}></p>
+                                            <div class="content-pay">
+                                                <p class="pay"><span>￥<{$goods.product_sale_price}></span> <i>￥<{$goods.product_market_price}></i></p>
+                                                <p class="number"> &nbsp;<span><{$goods.product_base_sale_count}></span>件已售</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <{/foreach}>
+                            </div>
+                        <{/empty}>
+                    <{/eq}>
+
+                    <{eq name="m" value="2"}>
+                        <{empty name="column['goods_list']"}>
+                            <div class="content-xiao hidden" <{eq name="number" value="0"}>style="display:block"<{/eq}>>
+                            <div class="contentBox">
+                                <img src="__STATIC__/shop/image/card-content-xiao.png" alt="">
+                                <p>我们的老师正在挑灯夜战的录制中.......</p>
+                                <h3>敬请期待！</h3>
+                            </div>
+                        </div>
+                        <{else /}>
+                            <div class="content-gao hidden" <{eq name="number" value="0"}>style="display:block"<{/eq}>>
+                                <{foreach name="column['goods_list']" item="goods"}>
+                                    <div class="contentBox">
+                                    <div class="content-img"><a href="goods.html?goods_id=<{$goods.product_id}>&recommend=<{$recommend}>"><img src="__PUBLIC__/<{$goods.product_image}>" alt=""></a></div>
+                                    <div class="content-text">
+                                        <p><{$goods.product_name|mb_substr=###,0,10,'utf-8'}>...</p>
+                                        <div class="content-pay">
+                                            <p class="pay"><span>￥<{$goods.product_sale_price}></span> <i>￥<{$goods.product_market_price}></i></p>
+                                            <p class="number"> &nbsp;<span><{$goods.product_base_sale_count}></span>件已售</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <{/foreach}>
+                            </div>
+                        <{/empty}>
+                    <{/eq}>
+
+                    <{eq name="m" value="3"}>
+                        <{empty name="column['goods_list']"}>
+                            <div class="content-xiao hidden" <{eq name="number" value="0"}>style="display:block"<{/eq}>>
+                                <div class="contentBox">
+                                    <img src="__STATIC__/shop/image/card-content-xiao.png" alt="">
+                                    <p>我们的老师正在挑灯夜战的录制中.......</p>
+                                    <h3>敬请期待！</h3>
+                                </div>
+                            </div>
+                        <{else /}>
+                            <div class="content-chu hidden" <{eq name="number" value="0"}>style="display:block"<{/eq}>>
+                                <{foreach name="column['goods_list']" item="goods"}>
+                                <div class="contentBox">
+                                    <div class="content-img"><a href="goods.html?goods_id=<{$goods.product_id}>&recommend=<{$recommend}>"><img src="__PUBLIC__/<{$goods.product_image}>" alt=""></a></div>
+                                    <div class="content-text">
+                                        <p><{$goods.product_name|mb_substr=###,0,10,'utf-8'}>...</p>
+                                        <div class="content-pay">
+                                            <p class="pay"><span>￥<{$goods.product_sale_price}></span> <i>￥<{$goods.product_market_price}></i></p>
+                                            <p class="number"> &nbsp;<span><{$goods.product_base_sale_count}></span>件已售</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <{/foreach}>
+                            </div>
+                        <{/empty}>
+                    <{/eq}>
+                    <{eq name="m" value="4"}>
+                        <{empty name="column['goods_list']"}>
+                            <div class="content-xiao hidden" <{eq name="number" value="0"}>style="display:block"<{/eq}>>
+                            <div class="contentBox">
+                                <img src="__STATIC__/shop/image/card-content-xiao.png" alt="">
+                                <p>我们的老师正在挑灯夜战的录制中.......</p>
+                                <h3>敬请期待！</h3>
+                            </div>
+                        </div>
+                        <{else /}>
+                            <div class="content-gao hidden" <{eq name="number" value="0"}>style="display:block"<{/eq}>>
+                                <{foreach name="column['goods_list']" item="goods"}>
+                                    <div class="contentBox">
+                                        <div class="content-img"><a href="goods.html?goods_id=<{$goods.product_id}>&recommend=<{$recommend}>"><img src="__PUBLIC__/<{$goods.product_image}>" alt=""></a></div>
+                                        <div class="content-text">
+                                            <p><{$goods.product_name|mb_substr=###,0,10,'utf-8'}>...</p>
+                                            <div class="content-pay">
+                                                <p class="pay"><span>￥<{$goods.product_sale_price}></span> <i>￥<{$goods.product_market_price}></i></p>
+                                                <p class="number"> &nbsp;<span><{$goods.product_base_sale_count}></span>件已售</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <{/foreach}>
+                            </div>
+                        <{/empty}>
+                    <{/eq}>
+            <{php}>$m++;<{/php}>
+            <{/foreach}>
+        </section>
+        <{include file="shop/common:footer"}>
+    </section>
+    <script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/swiper-3.4.2.jquery.min.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+    <script charset="utf-8">
+        $(document).ready(function () {
+            var number = "<{$number}>";
+            $('.content-box > div').eq(number).show().siblings('.content-box > div').hide();
+            $('.tab-box li').click(function () {
+                var index = $(this).index();
+                $(this).attr('class', "action").siblings('li').attr('class', '');
+                $('.content-box > div').eq(index).show().siblings('.content-box > div').hide();
+            })
+        })
+    </script>
+</body>
+</html>

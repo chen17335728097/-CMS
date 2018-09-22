@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>购物车</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/shopping.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/nav.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/radio.css">
+</head>
+<body>
+    <section class="container">
+
+        <header class="shopping-header">
+            <span>我的购物车</span>
+            <a href="javascript:(0);" style="margin-right:0.5rem;color:red;" id="manager_del">删除</a>
+            <a href="javascript:(0);" id="manager">管理</a>
+            <a href="javascript:(0);" id="manager_cancel">取消</a>
+        </header>
+        <section class="content-box">
+           <{foreach name="cart_list" item="goods"}>
+            <div class="goods-box">
+                <div class="switch">
+                    <input class='selected' name="goods" value="<{$goods.cart_id}>"  attr_id="<{$goods.attr_id}>" type="checkbox" />
+                </div>
+                <div class="goods-img"><a href="goods.html?goods_id=<{$goods.goods_id}>"><img src="<{$goods.goods_img}>" alt="" height="100%;"></a></div>
+                <div class="goods-text">
+                    <p><{$goods.goods_name}></p>
+                    <span>￥<{$goods.goods_price}></span>
+                </div>
+                <ul class="goods-number">
+                    <li class="reduce">-</li>
+                    <li><{$goods.goods_num}></li>
+                    <li class="add">+</li>
+                </ul>
+            </div>
+           <{/foreach}>
+        </section>
+        <section class="pay-box">
+            <div><input type="checkbox" class="allSelect" />全选 </div>
+            <div>合计<span class="price">￥0</span></div>
+            <div id="now_pay">结算(<span class="total">0</span>)</div>
+        </section>
+        <{include file="shop/common:footer"}>
+    </section>
+    <script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/swiper-3.4.2.jquery.min.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+    <script charset="utf-8" src="__STATIC__/layer/layer.js"></script>
+    <script>
+        $(document).ready(function () {
+            var totalPrice = 0, total = 0, number=0;
+            var check_array = new Array();
+            $('.container').css({ 'min-height': $(window).height() });
+            $('#manager_cancel').hide();
+            $("#manager_del").hide();
+            //管理
+            $("#manager").click(function(){
+                $(this).hide();
+                $('#now_pay').unbind("click");
+                $("#manager_del").show();
+                $('#manager_cancel').show();
+            });
+            //取消
+            $("#manager_cancel").click(function () {
+                $("#manager_del").hide();
+                $(this).hide();
+                $("#manager").show();
+                $('#now_pay').bind("click",function () {
+                    $("#now_pay").click(function () {
+                        if(number==''){
+                            layer.msg('请选择商品', {time: 4000, icon:6});
+                            return false;
+                        }
+                        window.location.href = "goods_order.html?goods="+check_array;
+                    });
+                });
+            });
+            //删除
+            $("#manager_del").click(function () {
+                var check_box = [];
+                $(".selected").each(function (i) {
+                    if ($(this).prop("checked")) {
+                        var a = $("input[name='goods']").eq(i).val();
+                        check_box.push(a);
+                    }
+                })
+                console.log(check_box);
+                if(check_box.length>0){
+                    $.ajax({
+                        url:'shipping_delete.html',
+                        type:'post',
+                        data:{check:check_box},
+                        dataType:'json',
+                        success:function(result){
+                            layer.msg(result.msg, {time: 4000, icon:6});
+                            if(result.code==20000){
+                                window.location.href="shop.html";
+                            }
+                        }
+                    });
+                }
+            });
+            //总金额
+            allPay()
+            // 选中商品， 计算总钱数
+            $('.selected').click(function(){
+                console.log($(this).prop('checked'))
+                if(!$(this).prop('checked')){
+                    $(this).prop('checked','')
+                    allPay()
+                    return;
+                }
+                $(this).prop('checked','checked');
+                allPay()
+            })
+
+            // 减法
+            $('.reduce').click(function () {
+                if ($(this).siblings('li').eq(0).text() > 1) {
+                    var num = parseInt($(this).siblings('li').eq(0).text());
+                    $(this).siblings('li').eq(0).text(num - 1)
+                }
+                allPay()
+            })
+            //加法
+            $('.add').click(function () {
+                var num = parseInt($(this).siblings('li').eq(1).text());
+                $(this).siblings('li').eq(1).text(num + 1)
+                allPay()
+            })
+            //全选
+            $('.allSelect').click(function () {
+                if ($(this).prop('checked')) {
+                    $("input[type='checkbox']").prop('checked', "checked");
+                    allPay()
+                } else {
+                    $("input[type='checkbox']").prop('checked', "");
+                    number=0;
+                }
+            })
+            // 计算金额
+            function allPay() {
+                total = 0,totalPrice = 0;number=0;
+                check_array.length=0;
+                $("input[name='goods']").each(function (i) {
+                    if ($(this).prop("checked")) {
+                        var pay = parseFloat($(this).parent().siblings('.goods-text').children('span').text().substr(1)),
+                            num = parseFloat($(this).parent().siblings('.goods-number').children('li').eq(1).text());
+                        totalPrice += pay * num
+                        total += num
+                        number++
+                        var goods_id_str = $(this).val() + '|' + num
+                        check_array.push(goods_id_str);
+                    }
+                })
+                $('.price').text('￥'+totalPrice)
+                $('.total').text(total)
+                var check_ed  = $("input[name='goods']:checked").length;
+                var check_num = $("input[name='goods']").length;
+                if(check_num==check_ed){
+                    $('.allSelect').prop('checked',true);
+                }else{
+                    $('.allSelect').prop('checked',false);
+                }
+            }
+            $("#now_pay").click(function () {
+                if(number==''){
+                    layer.msg('请选择商品', {time: 4000, icon:6});
+                    return false;
+                }
+                window.location.href = "goods_order.html?goods="+check_array;
+            });
+
+
+        })
+    </script>
+</body>
+</html>

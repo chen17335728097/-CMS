@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>会员中心</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/person.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/nav.css">
+</head>
+
+<body>
+    <section class="container">
+        <header class="header-box">
+            <div class="header">
+                <div class="signIn">
+                    <a href="sign.html?recommend=<{$recommend}>" s_id="signCalendar">签到</a>
+                    <p>您已签到<span>300</span>天</p>
+                </div>
+                <a href="member_data.html" class="setting">设置</a>
+            </div>
+            <div class="header-text">
+                <div class="header-img">
+                    <{empty name="user_info['member_logo']"}>
+                        <img src="<{$user_info.member_head_img_url}>" alt="微信头像">
+                    <{else /}>
+                        <img src="<{$user_info.member_logo}>" alt="微信头像">
+                    <{/empty}>
+                </div>
+                <div class="textBox">
+                    <{php}>$return_array=return_member_grade($user_info['member_value']);<{/php}>
+                    <h3><{$user_info.member_nickname}></h3>
+                    <p>[<{$return_array.grade_name}>]</p>
+                    <p>据评估 你可提现约<span style="color:red;">&nbsp;<{:return_rebate_money($user_info.member_id)}>&nbsp;</span>元 加油哦!</p>
+                    <a href="member_rebate.html?recommend=<{$recommend}>">提现</a>
+                </div>
+            </div>
+        </header>
+        <section class="contentBox">
+            <a href="person-detail.html?recommend=<{$recommend}>">
+                <ul class="header-tab">
+                        <li>
+                            <p>学习币</p>
+                            <span><{$user_info.member_study_currency}></span>
+                        </li>
+                        <li>
+                            <p>推荐币</p>
+                            <span><{$user_info.member_recommend_currency}></span>
+                        </li>
+                        <li>
+                            <p>签到币</p>
+                            <span><{$user_info.member_sign_currency}></span>
+                        </li>
+                </ul>
+            </a>
+            <ul class="tab-btn">
+                <li>
+                    <a href="member_order.html?recommend=<{$recommend}>">
+                        <img src="__STATIC__/shop/image/person-allBtn.png" alt="">
+                        <p>全部订单</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="member_order.html?active=10&recommend=<{$recommend}>">
+                        <img src="__STATIC__/shop/image/person-zhiBtn.png" alt="">
+                        <p>待付款</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="member_order.html?active=20&recommend=<{$recommend}>">
+                        <img src="__STATIC__/shop/image/person-faBtn.png" alt="">
+                        <p>待发货</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="member_order.html?active=30&recommend=<{$recommend}>">
+                        <img src="__STATIC__/shop/image/person-shouBtn.png" alt="">
+                        <p>待收货</p>
+                    </a>
+                </li>
+            </ul>
+            <div class="person-blockBtn-box">
+                <a href="member_recommend_info.html?recommend=<{$recommend}>">成为推广大使(马上用地图显示)<i></i></a>
+                <a href="recommend.html?recommend=<{$recommend}>">我的分享码<i></i></a>
+                <a href="person-detail.html?recommend=<{$recommend}>">我的商城币<i></i></a>
+                <a href="address_center.html?recommend=<{$recommend}>">我的收货地址<i></i></a>
+                <a href="member_mall.html?recommend=<{$recommend}>">我的分享排行<i></i></a>
+
+            </div>
+        </section>
+        <nav class="nav-box" style="position: inherit;">
+            <ul>
+                <li><a <{eq name="action" value="10"}> class="action" <{/eq}> href="index.html?recommend=<{$recommend}>"><img src="__STATIC__/shop/image/home-sel.png" alt="">首页</a></li>
+                <li><a <{eq name="action" value="20"}> class="action" <{/eq}> href="card.html?recommend=<{$recommend}>"><img src="__STATIC__/shop/image/card.png" alt="">卡.周边</a></li>
+                <li><a <{eq name="action" value="30"}> class="action" <{/eq}> href="position.html?recommend=<{$recommend}>"><img src="__STATIC__/shop/image/position.png" alt="">马上用</a></li>
+                <li><a <{eq name="action" value="40"}> class="action" <{/eq}> href="shop.html?recommend=<{$recommend}>"><img src="__STATIC__/shop/image/shopping.png" alt="">购物车</a></li>
+                <li><a <{eq name="action" value="50"}> class="action" <{/eq}> href="person.html?recommend=<{$recommend}>"><img src="__STATIC__/shop/image/person.png" alt="">个人中心</a></li>
+            </ul>
+        </nav>
+    </section>
+
+    <script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/swiper-3.4.2.jquery.min.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+    <script charset="utf-8" src="__STATIC__/layer/layer.js"></script>
+    <script charset="utf-8">
+            $(document).ready(function () {
+                // 设置页面最小高度为屏幕高度
+                $('.container').css({ 'min-height': $(window).height() });
+
+            })
+        </script>
+</body>
+<script type="text/javascript">
+    $(function(){
+        var signId = "<{$user_info.member_id}>";
+        $.ajax({
+            url:'/api/Calendar/calendar/',
+            type:'post',
+            data:{id:signId},
+            dataType:'json',
+            success:function(re){
+                $(".signIn").find('span').css('color','red');
+                $(".signIn").find('span').html("&nbsp;"+re.data.length+"&nbsp;");
+            }
+        });
+        $("#signCalendar").click(function(){
+            $.ajax({
+                url:'/api/Calendar/signCalendar/',
+                type:'get',
+                data:{id:signId},
+                dataType:'json',
+                success:function(re){
+                    layer.msg(re.msg,{time: 5000, icon:6});
+                }
+            });
+        });
+    });
+</script>
+</html>

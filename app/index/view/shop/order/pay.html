@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>订单支付</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/myOrder.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/nav.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/pay.css">
+</head>
+<body>
+    <section class="container">
+        <header class="header-box">
+            <i class="back"></i>
+            <h3>订单支付</h3>
+        </header>
+        <section class="goodsList-box" style="display:block;">
+            <div class="margin-bottom">
+                <div class="orderText">
+                    <p>订单编号</p>
+                    <p><{$order_info.order_sn}></p>
+                </div>
+                <div class="orderText">
+                    <p>订单金额</p>
+                    <p class="redText">￥<{$order_info.total_money|number_format}></p>
+                </div>
+            </div>
+            <ul class="payStyle-box">
+                <li class="payStyle">
+                    <a href="javascript:(0);" id="paybutton" onclick="callpay()">
+                        <div class="payImg"></div>
+                        <div class="payText">
+                            <p>微信支付</p>
+                            <p>微信安全支付</p>
+                            <i></i>
+                        </div>
+                    </a>
+                </li>
+                <!--<li class="payStyle">
+                    <a href="javascript:(0);" id="currency_pay">
+                        <div class="payImg"></div>
+                        <div class="payText">
+                            <p>商城币支付</p>
+                            <p>当前余额<span class="redText">996</span>币</p>
+                            <i></i>
+                        </div>
+                    </a>
+                </li>-->
+            </ul>
+        </section>
+    </section>
+    </section>
+    <script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/swiper-3.4.2.jquery.min.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+    <script charset="utf-8" src="__STATIC__/layer/layer.js"></script>
+    <script charset="utf-8">
+        $(document).ready(function () {
+            // 设置页面最小高度为屏幕高度
+            $('.container').css({ 'min-height': $(window).height() });
+        });
+    </script>
+    <script src="__PUBLIC__/static/js/jquery-1.7.2.min.js"></script>
+
+    <script type="text/javascript">
+        var order_sn = "<{$order_info.order_sn}>";
+        var param = <{$param}>;
+        function jsApiCall()
+        {
+            WeixinJSBridge.invoke(
+                    'getBrandWCPayRequest',param,
+                    function(res){
+                        //alert('err_code:'+res.err_code+'err_desc:'+res.err_desc+'err_msg:'+res.err_msg);
+                        if(res.err_msg == "get_brand_wcpay_request:ok"){
+                            //查询订单支付状态
+                            layer.msg('支付成功',{time: 5000, icon:6});
+                            window.location.href="member_order.html?active=20&recommend=30";
+                            /*$.ajax({
+                                url:'checkOrderStatus.html',
+                                type:'get',
+                                data:{order_sn:order_sn},
+                                dataType:'json',
+                                success:function(result){
+                                    if(result === true){
+                                        alert('支付成功');
+                                        window.location.href="person-detail.html";
+                                    }
+                                }
+                            });*/
+                        }
+                    }
+            );
+        }
+
+        function callpay()
+        {
+            if (typeof WeixinJSBridge == "undefined"){
+                if( document.addEventListener ){
+                    document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                }else if (document.attachEvent){
+                    document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                    document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                }
+            }else{
+                jsApiCall();
+            }
+        }
+    </script>
+</body>
+<script type="text/javascript">
+    $(function () {
+        var orderSn = "<{$order_info.order_sn}>";
+        var userId = "<{$user_info.member_id}>";
+        var total = "<{$order_info.total_money}>";
+       $("#currency_pay").click(function () {
+           if(userId){
+               $.ajax({
+                   url:'currency_pay.html',
+                   type:'post',
+                   data:{user_id:userId,total:total,order:orderSn},
+                   dataType:'json',
+                   success:function(result){
+                       layer.msg(result.msg);
+                   }
+               });
+           }
+
+       });
+    });
+</script>
+</html>

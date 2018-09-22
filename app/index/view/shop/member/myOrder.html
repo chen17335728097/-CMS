@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的订单</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/myOrder.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/nav.css">
+</head>
+
+<body>
+    <section class="container">
+        <header class="header-box">
+            <i class="back"></i>
+            <h3>我的订单</h3>
+            <!--<i class="delete"></i>-->
+        </header>
+        <section class="tab-box">
+            <ul>
+                <li <{eq name="active" value="10"}> class="action" <{/eq}><{empty name="active"}> class="action" <{/empty}> >待付款</li>
+                <li <{eq name="active" value="20"}> class="action" <{/eq}> >待发货</li>
+                <li <{eq name="active" value="30"}> class="action" <{/eq}> >待收货</li>
+                <li <{eq name="active" value="40"}> class="action" <{/eq}> >已完成</li>
+                <li <{eq name="active" value="70"}> class="action" <{/eq}> >退款中</li>
+            </ul>
+        </section>
+        <section class="goodsList-box active_10" style="display:block;">
+            <{foreach name="order_list" item="order"}>
+                <{eq name="order['goods_order_status']" value="10"}>
+                    <div class="margin-bottom">
+                        <div class="orderText">
+                            <p>订单号: <span style="color: #ff2424;"><{$order.goods_order_sn}></span></p>
+                            <p></p>
+                        </div>
+                        <ul>
+                            <li>
+                                <a href="orderDetail.html?order_id=<{$order.goods_o_id}>&recommend=<{$recommend}>">
+                                <div class="goods-right">
+                                    <p>￥<{$order.goods_order_price}></p>
+                                    <span>X <{$order.goods_order_num}></span>
+                                </div>
+                                <div class="goods-img"><img src="__STATIC__/shop/image/orderList-goods01.png" alt=""></div>
+                                <div class="goods-title">
+                                    <p><{$order.product_name}></p>
+                                    <!--<span>年卡</span>-->
+                                </div>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="total">
+                            <p>共<span><{$order.goods_order_num}></span>件商品，共计<span>￥<{$order.goods_order_total}></span></p>
+                        </div>
+                        <div class="total ediorBtn">
+                            <a href="member_order_pay.html?order_sn=<{$order.goods_o_id}>">立即支付</a>
+                            <a href="javascript:(0);" class="cancel_order" data-type="cancel" data-id="<{$order.goods_o_id}>">取消订单</a>
+                            <a href="javascript:(0);" class="confirmDelete" data-type="delete" data-id="<{$order.goods_o_id}>">删除订单</a>
+                        </div>
+                    </div>
+                <{/eq}>
+            <{/foreach}>
+        </section>
+        <section class="goodsList-box active_20">
+            <{foreach name="order_list" item="order"}>
+                <{eq name="order['goods_order_status']" value="20"}>
+                    <div class="margin-bottom">
+                    <div class="orderText">
+                        <p>订单号: <span style="color: #ff2424;"><{$order.goods_order_sn}></span></p>
+                        <p></p>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="orderDetail.html?order_id=<{$order.goods_o_id}>&recommend=<{$recommend}>">
+                            <div class="goods-right">
+                                <p>￥<{$order.goods_order_price}></p>
+                                <span>X <{$order.goods_order_num}></span>
+                            </div>
+                            <div class="goods-img"><img src="__STATIC__/shop/image/orderList-goods01.png" alt=""></div>
+                            <div class="goods-title">
+                                <p><{$order.product_name}></p>
+                                <!--<span>年卡</span>-->
+                            </div></a>
+                        </li>
+                    </ul>
+                    <div class="total">
+                        <p>共<span><{$order.goods_order_num}></span>件商品，共计<span>￥<{$order.goods_order_total}></span></p>
+                    </div>
+                    <div class="total ediorBtn">
+                        <a href="javascript:(0);" class="cancel_order" data-type="cancel" data-id="<{$order.goods_o_id}>">取消订单</a>
+                        <a href="javascript:(0);" class="confirmRefund" data-type="refund" data-id="<{$order.goods_o_id}>">申请退款</a>
+                    </div>
+                </div>
+                <{/eq}>
+            <{/foreach}>
+        </section>
+        <section class="goodsList-box active_30">
+            <{foreach name="order_list" item="order"}>
+                <{eq name="order['goods_order_status']" value="30"}>
+                        <div class="margin-bottom">
+                    <div class="orderText">
+                        <p>订单号: <span style="color: #ff2424;"><{$order.goods_order_sn}></span></p>
+                        <p></p>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="orderDetail.html?order_id=<{$order.goods_o_id}>&recommend=<{$recommend}>">
+                            <div class="goods-right">
+                                <p>￥<{$order.goods_order_price}></p>
+                                <span>X <{$order.goods_order_num}></span>
+                            </div>
+                            <div class="goods-img"><img src="__STATIC__/shop/image/orderList-goods01.png" alt=""></div>
+                            <div class="goods-title">
+                                <p><{$order.product_name}></p>
+                               <!-- <span>年卡</span>-->
+                            </div>
+                                </a>
+                        </li>
+                    </ul>
+                    <div class="total">
+                        <p>共<span><{$order.goods_order_num}></span>件商品，共计<span>￥<{$order.goods_order_total}></span></p>
+                    </div>
+                    <div class="total ediorBtn">
+                        <a href="javascript:(0);" class="confirmDelivery" data-type="delivery" data-id="<{$order.goods_o_id}>">确认收货</a>
+                        <a href="javascript:(0);" class="confirmRefund" data-type="refund"  data-id="<{$order.goods_o_id}>">申请退款</a>
+                        <a href="logistic.html?id=<{$order.goods_o_id}>" data-id="<{$order.goods_o_id}>">查看物流</a>
+                    </div>
+                </div>
+                <{/eq}>
+            <{/foreach}>
+        </section>
+        <section class="goodsList-box active_40">
+            <{foreach name="order_list" item="order"}>
+                <{eq name="order['goods_order_status']" value="40"}>
+                    <div class="margin-bottom">
+                        <div class="orderText">
+                            <p>订单号: <span style="color: #ff2424;"><{$order.goods_order_sn}></span></p>
+                            <p></p>
+                        </div>
+                        <ul>
+                        <li> <a href="orderDetail.html?order_id=<{$order.goods_o_id}>&recommend=<{$recommend}>">
+                            <div class="goods-right">
+                                <p>￥<{$order.goods_order_price}></p>
+                                <span>X <{$order.goods_order_num}></span>
+                            </div>
+                            <div class="goods-img"><img src="__STATIC__/shop/image/orderList-goods01.png" alt=""></div>
+                            <div class="goods-title">
+                                <p><{$order.product_name}></p>
+                               <!-- <span>年卡</span>-->
+                            </div>
+                            </a>
+                        </li>
+                    </ul>
+                        <div class="total">
+                        <p>共<span><{$order.goods_order_num}></span>件商品，共计<span>￥<{$order.goods_order_total}></span></p>
+                    </div>
+                        <div class="total ediorBtn">
+                            <a href="javascript:(0);" class="confirmDelete" data-type="delete" data-id="<{$order.goods_o_id}>">删除订单</a>
+                        </div>
+                    </div>
+                <{/eq}>
+            <{/foreach}>
+        </section>
+        <section class="goodsList-box active_70">
+            <{foreach name="order_list" item="order"}>
+                <{eq name="order['goods_order_status']" value="70"}>
+                    <div class="margin-bottom">
+                        <div class="orderText">
+                            <p>订单号: <span style="color: #ff2424;"><{$order.goods_order_sn}></span></p>
+                            <p>
+                                退款中
+                                <i></i>
+                            </p>
+                        </div>
+                        <ul>
+                            <li> <a href="orderDetail.html?order_id=<{$order.goods_o_id}>&recommend=<{$recommend}>">
+                                <div class="goods-right">
+                                    <p>￥<{$order.goods_order_price}></p>
+                                    <span>X <{$order.goods_order_num}></span>
+                                </div>
+                                <div class="goods-img"><img src="__STATIC__/shop/image/orderList-goods01.png" alt=""></div>
+                                <div class="goods-title">
+                                    <p><{$order.product_name}></p>
+                                    <!--<span>年卡</span>-->
+                                </div></a>
+                            </li>
+                        </ul>
+                        <div class="total">
+                            <p>共<span><{$order.goods_order_num}></span>件商品，共计<span>￥<{$order.goods_order_total}></span></p>
+                        </div>
+                        <div class="total ediorBtn">
+                                <a href="javascript:(0);">退款中</a>
+                        </div>
+                    </div>
+                <{/eq}>
+            <{/foreach}>
+        </section>
+    </section>
+    <script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/swiper-3.4.2.jquery.min.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+    <script charset="utf-8" src="__STATIC__/layer/layer.js"></script>
+    <script charset="utf-8">
+        $(document).ready(function () {
+            $(".back").click(function () {
+                window.history.back();
+            });
+            // 设置页面最小高度为屏幕高度
+            $('.container').css({ 'min-height': $(window).height() });
+
+            $('.tab-box li').click(function () {
+                var index = $(this).index();
+                $(this).attr('class', "action").siblings('li').attr('class', '');
+                $('.goodsList-box').eq(index).show().siblings('.goodsList-box').hide();
+            })
+            var active = "<{$active}>";
+            $('.active_'+active).siblings('.goodsList-box').css('display','none');
+            $('.active_'+active).css('display','block');
+            /**确认收货**/
+            $(".confirmDelivery").click(function(){
+                var order_id = $(this).attr("data-id");
+                var order_type = $(this).attr("data-type");
+                if(confirm('确认货到手了吗?')){
+                    change_order(order_id,order_type)
+                }
+            });
+            /****删除订单****/
+            $(".confirmDelete").click(function () {
+                var order_id = $(this).attr("data-id");
+                var order_type = $(this).attr("data-type");
+                var obj = $(this).parent('.total').parent('.margin-bottom');
+                if(confirm('确认要删除订单吗?')){
+                    change_order(order_id,order_type)
+                }
+            });
+            /****取消订单***/
+            $(".cancel_order").click(function(){
+                var order_id = $(this).attr("data-id");
+                var order_type = $(this).attr("data-type");
+                if(window.confirm('确认要取消订单吗?')){
+                    change_order(order_id,order_type)
+                }
+            });
+            /****申请退款****/
+            $(".confirmRefund").click(function () {
+                var order_id = $(this).attr("data-id");
+                var order_type = $(this).attr("data-type");
+                if(confirm('确认要申请退款吗?')) {
+                    change_order(order_id,order_type)
+                }
+            });
+        })
+        function change_order(order_id,order_type){
+            $.ajax({
+                url: 'member_change.html',
+                type: 'post',
+                data: {order_id: order_id,order_type:order_type},
+                dataType: 'json',
+                success: function (result) {
+                    layer.msg(result.msg);
+                    if (result.code == 20000) {
+                        window.history.go(0);
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

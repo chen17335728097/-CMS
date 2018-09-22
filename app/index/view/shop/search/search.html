@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/search.css">
+</head>
+
+<body>
+    <section class="container">
+        <header class="header-box">
+            <i class="back"></i>
+            <input type="text" placeholder="请输入搜索内容" name="keywords">
+            <i></i>
+            <a href="javascript:(0);" id="search">搜索</a>
+        </header>
+        <section class="keyword">
+            <p>历史搜索</p>
+            <p style="margin:10px 0;float:left;">
+                <a href="card.html?number=1&recommend=30&keywords=初中月卡">初中月卡</a>
+                <a href="card.html?number=1&recommend=30&keywords=月卡">初中半年卡</a>
+                <a href="card.html?number=1&recommend=30&keywords=初中">初中年卡</a>
+            </p>
+            
+            <p style="margin:10px 0;float:left;">
+                <a href="card.html?number=2&recommend=30&keywords=高中月卡">高中月卡</a>
+                <a href="card.html?number=2&recommend=30&keywords=高中月卡">高中半年卡</a>
+                <a href="card.html?number=2&recommend=30&keywords=高中月卡">高中年卡</a>
+            </p>
+        </section>
+    </section>
+
+    <script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/distpicker.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+    <script charset="utf-8">
+        $(document).ready(function () {
+            // 设置页面最小高度为屏幕高度
+            $('.container').css({ 'min-height': $(window).height() });
+            $("#search").click(function () {
+                var keywords = $("input[name='keywords']").val();
+                if(keywords == ''){
+                    keywords="学习卡";
+                }
+                window.location.href="card.html?recommend=30&keywords='"+keywords+"'";
+           });
+        })
+    </script>
+</body>
+
+</html>

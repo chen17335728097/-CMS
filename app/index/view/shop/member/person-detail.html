@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的商城币</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/person-detail.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/nav.css">
+</head>
+<body>
+    <section class="container">
+        <header class="header-box">
+            <a href="javascript:history.go(-1);"><i></i></a>
+            <h3>我的商城币</h3>
+        </header>
+        <section class="tab-box">
+            <ul>
+                <li class="action">全部</li>
+                <li>学习币</li>
+                <li>推荐比</li>
+                <li>签到币</li>
+            </ul>
+        </section>
+        <section class="person-contentBox">
+            <div class="contentBox">
+                <ul class="header-tab">
+                    <li>
+                        <p>学习币</p>
+                        <span><{$user_info.member_study_currency}></span>
+                    </li>
+                    <li>
+                        <p>推荐币</p>
+                        <span><{$user_info.member_recommend_currency}></span>
+                    </li>
+                    <li>
+                        <p>签到币</p>
+                        <span><{$user_info.member_sign_currency}></span>
+                    </li>
+                </ul>
+                <div class="contentbackground">
+                    <ul>
+                        <li><{php}>$return_array=return_member_grade($user_info['member_value']);<{/php}>
+                            <p>[<{$return_array.grade_name}>]</p>
+                            <p>提现比率<{$return_array.grade_rebate*100}>%</p>
+                        </li>
+                        <li>
+                            <{php}>$member_total_currency = $user_info['member_study_currency']+$user_info['member_sign_currency']+$user_info['member_recommend_currency'];<{/php}>
+                            <h1><{$member_total_currency}></h1>
+                        </li>
+                        <li>
+                            <p>可提<span><{$return_array.grade_rebate*$member_total_currency}></span>元</p>
+                        </li>
+                    </ul>
+                    <div class="tixian-btn">
+                        <a href="member_rebate.html?recommend=<{$recommend}>">一键提现</a>
+                    </div>
+                    <div class="personDetail">
+                        <p>还有<span>1000</span>币即可升级到V2会员，提现比率会提高<span>5</span>%哦</p>
+                    </div>
+                </div>
+                <{foreach name="currency_list" item="info"}>
+                    <div class="personDetail-text">
+                        <p><span><{$info.shop_c_time|strtotime|date='m-d',###}></span>[<span><{$info.shop_c_name}></span>]<{$info.shop_c_desc|mb_substr=###,0,20,'UTF-8'}>...</p>
+                            <span class="number-text"><{$info.shop_c_account}></span>
+                    </div>
+                <{/foreach}>
+            </div>
+            <div class="contentBox hidden">
+                <div class="contentbackground">
+                    <ul>
+                        <li>
+                            <p>[<{$return_array.grade_name}>]</p>
+                            <p>提现比率<{$return_array.grade_rebate*100}>%</p>
+                        </li>
+                        <li>
+                            <h1><{$user_info.member_study_currency}></h1>
+                        </li>
+                        <li>
+                            <p>可提<span><{$return_array.grade_rebate*$user_info.member_study_currency}></span>元</p>
+                        </li>
+                    </ul>
+                    <div class="tixian-btn">
+                        <a href="member_rebate.html?recommend=<{$recommend}>">一键提现</a>
+                    </div>
+                    <div class="personDetail">
+                        <p>亲爱的会员，您共消费<span>2</span>笔，消费<span>2000</span>元</p>
+                    </div>
+                </div>
+                <{foreach name="currency_list" item="info"}>
+                    <{eq name="info['shop_c_type']" value="10"}>
+                        <div class="personDetail-text">
+                            <p><span><{$info.shop_c_time|strtotime|date='m-d',###}></span>[<span><{$info.shop_c_name}></span>]<{$info.shop_c_desc|mb_substr=###,0,20,'UTF-8'}>...</p>
+                            <span class="number-text">+<{$info.shop_c_account|number_format}></span>
+                        </div>
+                    <{/eq}>
+                <{/foreach}>
+            </div>
+            <div class="contentBox hidden">
+                <div class="contentbackground">
+                    <ul>
+                        <li>
+                            <p>[<{$return_array.grade_name}>]</p>
+                            <p>提现比率<{$return_array.grade_rebate*100}>%</p>
+                        </li>
+                        <li>
+                            <h1><{$user_info.member_recommend_currency}></h1>
+                        </li>
+                        <li>
+                            <p>可提<span><{$return_array.grade_rebate*$user_info.member_recommend_currency}></span>元</p>
+                        </li>
+                    </ul>
+                    <div class="tixian-btn">
+                        <a href="member_rebate.html?recommend=<{$recommend}>">一键提现</a>
+                    </div>
+                    <div class="personDetail">
+                        <p>亲爱的会员，您共推荐<span>5</span>人成交，二级推荐10人成交</p>
+                    </div>
+                </div>
+                <{foreach name="currency_list" item="info"}>
+                    <{eq name="info['shop_c_type']" value="20"}>
+                        <div class="personDetail-text">
+                            <p><span><{$info.shop_c_time|strtotime|date='m-d',###}></span>[<span><{$info.shop_c_name}></span>]<{$info.shop_c_desc|mb_substr=###,0,20,'UTF-8'}>...</p>
+                            <span class="number-text"><{$info.shop_c_account}></span>
+                        </div>
+                    <{/eq}>
+                <{/foreach}>
+
+            </div>
+            <div class="contentBox hidden">
+                <div class="contentbackground">
+                    <ul>
+                        <li>
+                            <p>[<{$return_array.grade_name}>]</p>
+                            <p>提现比率<{$return_array.grade_rebate*100}>%</p>
+                        </li>
+                        <li>
+                            <h1><{$user_info.member_sign_currency}></h1>
+                        </li>
+                        <li>
+                            <p>可提<span><{$return_array.grade_rebate*$user_info.member_sign_currency}></span>元</p>
+                        </li>
+                    </ul>
+                    <div class="tixian-btn">
+                        <a href="member_rebate.html?recommend=<{$recommend}>">一键提现</a>
+                    </div>
+                    <div class="personDetail">
+                        <p>亲爱的会员，您已签到<span>50</span>天，继续加油哟</p>
+                    </div>
+                </div>
+                <{foreach name="currency_list" item="info"}>
+                    <{eq name="info['shop_c_type']" value="30"}>
+                        <div class="personDetail-text">
+                            <p><span><{$info.shop_c_time|strtotime|date='m-d',###}></span>[<span><{$info.shop_c_name}></span>]<{$info.shop_c_desc|mb_substr=###,0,20,'UTF-8'}>...</p>
+                            <span class="number-text"><{$info.shop_c_account}></span>
+                        </div>
+                    <{/eq}>
+                <{/foreach}>
+            </div>
+        </section>
+    </section>
+
+    <script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/swiper-3.4.2.jquery.min.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+    <script charset="utf-8">
+        $(document).ready(function () {
+            // 设置页面最小高度为屏幕高度
+            $('.container').css({ 'min-height': $(window).height() });
+
+            $('.tab-box li').click(function () {
+                var index = $(this).index();
+                $(this).attr('class', "action").siblings('li').attr('class', '');
+                $('.person-contentBox > div').eq(index).show().siblings('.person-contentBox > div').hide();
+            })
+
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/card.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/nav.css">
+</head>
+
+<body>
+    <section class="container">
+        <section class="tab-box">
+            <ul>
+                <li>周边</li>
+            </ul>
+        </section>
+
+        <section class="content-box">
+
+            <div class="content-gao ">
+                <div class="contentBox">
+                    <div class="content-img"><img src="__STATIC__/shop/image/card-content-zhou1.png" alt=""></div>
+                    <div class="content-text">
+                        <p>万门初中全科学习月卡</p>
+                        <div class="content-pay">
+                            <p class="pay"><span>￥208</span> <i>￥1198</i></p>
+                            <p class="number"> <span>997</span> 件已售</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contentBox">
+                    <div class="content-img"><img src="__STATIC__/shop/image/card-content-zhou2.png" alt=""></div>
+                    <div class="content-text">
+                        <p>万门初中全科学习月卡</p>
+                        <div class="content-pay">
+                            <p class="pay"><span>￥208</span> <i>￥1198</i></p>
+                            <p class="number"> <span>997</span> 件已售</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contentBox">
+                    <div class="content-img"><img src="__STATIC__/shop/image/card-content-zhou3.png" alt=""></div>
+                    <div class="content-text">
+                        <p>万门初中全科学习月卡</p>
+                        <div class="content-pay">
+                            <p class="pay"><span>￥208</span> <i>￥1198</i></p>
+                            <p class="number"> <span>997</span> 件已售</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contentBox">
+                    <div class="content-img"><img src="__STATIC__/shop/image/card-content-zhou4.png" alt=""></div>
+                    <div class="content-text">
+                        <p>万门初中全科学习月卡</p>
+                        <div class="content-pay">
+                            <p class="pay"><span>￥208</span> <i>￥1198</i></p>
+                            <p class="number"> <span>997</span> 件已售</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contentBox">
+                    <div class="content-img"><img src="__STATIC__/shop/image/card-content-zhou5.png" alt=""></div>
+                    <div class="content-text">
+                        <p>万门白色皮质笔记本</p>
+                        <div class="content-pay">
+                            <p class="pay"><span>￥15</span> <i>￥138</i></p>
+                            <p class="number"> <span>997</span> 件已售</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contentBox">
+                    <div class="content-img"><img src="__STATIC__/shop/image/card-content-zhou6.png" alt=""></div>
+                    <div class="content-text">
+                        <p>万门多彩笔记本</p>
+                        <div class="content-pay">
+                            <p class="pay"><span>￥5</span> <i>￥138</i></p>
+                            <p class="number"> <span>997</span> 件已售</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contentBox">
+                    <div class="content-img"><img src="__STATIC__/shop/image/card-content-zhou7.png" alt=""></div>
+                    <div class="content-text">
+                        <p>万门周边纪念片鼠标垫</p>
+                        <div class="content-pay">
+                            <p class="pay"><span>￥19.9</span> <i>￥138</i></p>
+                            <p class="number"> <span>997</span> 件已售</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contentBox">
+                    <div class="content-img"><img src="__STATIC__/shop/image/card-content-zhou8.png" alt=""></div>
+                    <div class="content-text">
+                        <p>万门卡通雨伞</p>
+                        <div class="content-pay">
+                            <p class="pay"><span>￥65</span> <i>￥138</i></p>
+                            <p class="number"> <span>997</span> 件已售</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/swiper-3.4.2.jquery.min.js"></script>
+    <script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+
+    <script charset="utf-8">
+        $(document).ready(function () {
+            $('.tab-box li').click(function () {
+                var index = $(this).index();
+                $(this).attr('class', "action").siblings('li').attr('class', '');
+                $('.content-box > div').eq(index).show().siblings('.content-box > div').hide();
+            })
+        })
+    </script>
+
+</body>
+
+</html>

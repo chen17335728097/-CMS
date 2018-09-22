@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的订单</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/person-detail.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/nav.css">
+</head>
+<body>
+<section class="container">
+    <header class="header-box">
+        <i></i>
+        <h3>我的订单</h3>
+    </header>
+    <section class="tab-box">
+        <ul>
+            <li class="action">全部</li>
+            <li>未付款</li>
+            <li>未发货</li>
+            <li>确认收货</li>
+        </ul>
+    </section>
+    <section class="person-contentBox">
+        <div class="contentBox">
+            <ul class="">
+                <li style="width: 100%;height:100%;">
+                    <div class="order_img" style="width: 30%;float:left;margin:2px;">
+                        <img src="__STATIC__/shop/image/person-allBtn.png"/>
+                    </div>
+                    <div class="order_info" style="font-size:16px;overflow:none;width: 30%;float:left;margin:2px;">
+                        商品名称
+                    </div>
+                    <div class="order_button" style="width: 30%;float:left;margin:2px;">
+                        <img src="__STATIC__/shop/image/person-allBtn.png"/>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="contentBox hidden">
+            <ul class="">
+                <li style="width: 100%;height:100%;">
+                    <div class="order_img">
+                        <img src="__STATIC__/shop/image/person-allBtn.png"/>
+                    </div>
+                    <div class="order_info">
+                        <img src="__STATIC__/shop/image/person-allBtn.png"/>
+                    </div>
+                    <div class="order_button">
+                        <img src="__STATIC__/shop/image/person-allBtn.png"/>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="contentBox hidden">
+            <ul class="">
+                <li style="width: 100%;height:100%;">
+                    <div class="order_img">
+                        <img src="__STATIC__/shop/image/person-allBtn.png"/>
+                    </div>
+                    <div class="order_info">
+                        <img src="__STATIC__/shop/image/person-allBtn.png"/>
+                    </div>
+                    <div class="order_button">
+                        <img src="__STATIC__/shop/image/person-allBtn.png"/>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="contentBox hidden">
+            <ul class="">
+                <li style="width: 100%;height:100%;">
+                    <div class="order_img">
+                        <img src="__STATIC__/shop/image/person-allBtn.png"/>
+                    </div>
+                    <div class="order_info">
+                        <img src="__STATIC__/shop/image/person-allBtn.png"/>
+                    </div>
+                    <div class="order_button">
+                        <img src="__STATIC__/shop/image/person-allBtn.png"/>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <{include file="shop/common:footer"}>
+</section>
+<script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+<script charset="utf-8" src="__STATIC__/shop/js/swiper-3.4.2.jquery.min.js"></script>
+<script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+<script charset="utf-8">
+    $(document).ready(function () {
+        // 设置页面最小高度为屏幕高度
+        $('.container').css({ 'min-height': $(window).height() });
+
+        $('.tab-box li').click(function () {
+            var index = $(this).index();
+            $(this).attr('class', "action").siblings('li').attr('class', '');
+            $('.person-contentBox > div').eq(index).show().siblings('.person-contentBox > div').hide();
+        })
+
+    })
+</script>
+</body>
+</html>

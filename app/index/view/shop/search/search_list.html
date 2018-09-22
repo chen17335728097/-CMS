@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品分类列表</title>
+    <link rel="stylesheet" href="__STATIC__/shop/css/reset.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/card.css">
+    <link rel="stylesheet" href="__STATIC__/shop/css/nav.css">
+</head>
+<body>
+<section class="container">
+    <section class="content-box">
+        <div class="content-gao hidden">
+
+            <div class="contentBox">
+                <div class="content-img">
+                    <a href="goods.html?goods_id=1&recommend=<{$recommend}>">
+                        <img src="/public/uploads/20180131/ef994213cdd65a29503ef835e581b63d.jpg" alt="">
+                    </a>
+                </div>
+                <div class="content-text">
+                    <p>测试商品测试商品测试商品</p>
+                    <div class="content-pay">
+                        <p class="pay"><span>￥399</span> <i>￥222</i></p>
+                        <p class="number"> &nbsp;<span>259</span>件已售</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</section>
+<script charset="utf-8" src="__STATIC__/shop/js/jquery-3.2.1.js"></script>
+<script charset="utf-8" src="__STATIC__/shop/js/swiper-3.4.2.jquery.min.js"></script>
+<script charset="utf-8" src="__STATIC__/shop/js/rem.js"></script>
+<script charset="utf-8">
+    $(document).ready(function () {
+        $('.tab-box li').click(function () {
+            var index = $(this).index();
+            $(this).attr('class', "action").siblings('li').attr('class', '');
+            $('.content-box > div').eq(index).show().siblings('.content-box > div').hide();
+        })
+    })
+</script>
+</body>
+</html>

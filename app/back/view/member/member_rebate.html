@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>用户组列表</title>
+    <meta name="Keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="__STATIC__/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="__STATIC__/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+    <!-- page specific plugin styles -->
+
+    <!-- text fonts -->
+    <link rel="stylesheet" href="__STATIC__/assets/css/fonts.googleapis.com.css" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="__STATIC__/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="__STATIC__/assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="__STATIC__/assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="__STATIC__/assets/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="__STATIC__/assets/css/myStyle.css" />
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="__STATIC__/assets/css/ace-ie.min.css" />
+    <![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+    <script src="__STATIC__/assets/js/ace-extra.min.js"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+    <!--[if lte IE 8]>
+    <script src="__STATIC__/assets/js/html5shiv.min.js"></script>
+    <script src="__STATIC__/assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="no-skin">
+<{include file="public:nav_top"}>
+<!-- /.navbar-container -->
+</div>
+
+<div class="main-container ace-save-state" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.loadState('main-container')
+        } catch(e) {}
+    </script>
+
+    <div id="sidebar" class="sidebar                  responsive                    ace-save-state">
+        <script type="text/javascript">
+            try {
+                ace.settings.loadState('sidebar')
+            } catch(e) {}
+        </script>
+
+        <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+            <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                <button class="btn btn-success">
+                    <i class="ace-icon fa fa-signal"></i>
+                </button>
+
+                <button class="btn btn-info">
+                    <i class="ace-icon fa fa-pencil"></i>
+                </button>
+
+                <button class="btn btn-warning">
+                    <i class="ace-icon fa fa-users"></i>
+                </button>
+
+                <button class="btn btn-danger">
+                    <i class="ace-icon fa fa-cogs"></i>
+                </button>
+            </div>
+
+            <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                <span class="btn btn-success"></span>
+
+                <span class="btn btn-info"></span>
+
+                <span class="btn btn-warning"></span>
+
+                <span class="btn btn-danger"></span>
+            </div>
+        </div>
+        <!-- /.sidebar-shortcuts -->
+        <{include file="public:menu"}>
+        <!-- /.nav-list -->
+
+        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+            <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!--面包屑-->
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="ace-icon fa fa-home home-icon"></i>
+                        <a href="index.html">首页</a>
+                    </li>
+                    <li>
+                        <a href="#">用户管理</a>
+                    </li>
+                    <li class="active">会员列表</li>
+                </ul>
+                <!-- /.breadcrumb -->
+
+                <div class="nav-search" id="nav-search">
+                    <form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="搜索 ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="ace-icon fa fa-search nav-search-icon"></i>
+								</span>
+                    </form>
+                </div>
+                <!-- /.nav-search -->
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#add-ad">
+                        <i class="ace-icon fa fa-plus"></i>
+                        添加新会员
+                    </button>
+                </div>
+
+                <div class="space-4"></div>
+
+                <!-- /.ace-settings-container -->
+                <!-- /.ace-settings-container -->
+
+                <div class="row">
+                    <!-- PAGE CONTENT BEGINS -->
+                    <table class="table table-bordered table-hover" border="0">
+                        <thead>
+                        <tr>
+                            <th width="100px">ID</th>
+                            <th >操作描述</th>
+
+                            <th style="width:8%;text-align: center;" >提现状态</th>
+                            <th style="text-align: center;" >提现时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <{foreach name="logs_list" item="log" key="m"}>
+                        <tr>
+                            <td align="center"><{$log.rebate_id}></td>
+                            <td align="center">
+                                <{$log.rebate_value}>
+                            </td>
+
+                            <td align="center">
+                                <{eq name="log['rebate_type']" value="10"}>
+                                <button class="status btn btn-minier btn-success" onclick="">推荐返利日志</button>
+                                <{/eq}>
+                                <{eq name="log['rebate_type']" value="20"}>
+                                <button class="status btn btn-minier btn-success" onclick="">消费返利日志</button>
+                                <{/eq}>
+                                <{eq name="log['rebate_type']" value="30"}>
+                                <button class="status btn btn-minier btn-success" onclick="">提现日志</button>
+                                <{/eq}>
+                            </td>
+                            <td align="center"><span class="badge badge-success"> <{$log.rebate_time}></span></td>
+                        </tr>
+                        <{/foreach}>
+                        </tbody>
+                    </table>
+
+                    <!-- PAGE CONTENT ENDS -->
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <ul class="pagination no-margin">
+
+                    </ul>
+                </div>
+            </div>
+            <!-- /.page-content -->
+        </div>
+    </div>
+    <!-- /.main-content -->
+
+    <{include file="public:footer"}>
+</div>
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+</a>
+</div>
+<!-- /.main-container -->
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+<script src="__STATIC__/assets/js/jquery-2.1.4.min.js"></script>
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script src="__STATIC__/assets/js/jquery-1.11.3.min.js"></script>
+<![endif]-->
+<script type="text/javascript">
+    if('ontouchstart' in document.documentElement) document.write("<script src='__STATIC__/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+</script>
+<script src="__STATIC__/assets/js/bootstrap.min.js"></script>
+
+<!-- page specific plugin scripts -->
+
+<!--[if lte IE 8]>
+<script src="__STATIC__/assets/js/excanvas.min.js"></script>
+<![endif]-->
+<script src="__STATIC__/assets/js/jquery-ui.custom.min.js"></script>
+<script src="__STATIC__/assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="__STATIC__/assets/js/bootbox.js"></script>
+<script src="__STATIC__/assets/js/jquery.easypiechart.min.js"></script>
+<script src="__STATIC__/assets/js/jquery.gritter.min.js"></script>
+<script src="__STATIC__/assets/js/spin.js"></script>
+
+<!-- ace scripts -->
+<script src="__STATIC__/assets/js/ace-elements.min.js"></script>
+<script src="__STATIC__/assets/js/ace.min.js"></script>
+<script src="__STATIC__/assets/js/main.js"></script>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    jQuery(function($) {
+        //删除按钮
+        $(".bootbox-del").on(ace.click_event, function() {
+            var delId = $(this).attr("data-id");
+            bootbox.confirm({
+                message: "是否删除该会员？",
+                size: 'small',
+                buttons: {
+                    confirm:{label:"确认删除"},
+                    cancel:{label:"取消删除"}
+                },
+                callback: function(result) {
+                    if(result) {
+                        //确定后执行
+                        $.ajax({
+                            url:"del-member.html",
+                            type:"post",
+                            data:{delId:delId,type:'delete'},
+                            dataType:"json",
+                            success:function(re){
+                                if(re.code==200){
+                                    window.alert(re.msg);
+                                    window.location.href="member-recycle.html";
+                                }else{
+                                    window.alert(re.msg);
+                                    return false;
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    });
+</script>
+</body>
+
+</html>
